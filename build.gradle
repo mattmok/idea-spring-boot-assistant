@@ -22,7 +22,7 @@ plugins {
 }
 
 group "dev.flikas"
-version '0.2.2'
+version '0.2.3'
 
 sourceCompatibility = 1.8
 
@@ -68,7 +68,7 @@ intellij {
 
 patchPluginXml {
     sinceBuild = '193.5233.102'
-    untilBuild = '213.4928.*'
+    untilBuild = '213.5744.*'
     pluginDescription = readmeXmlAsHtml()
     changeNotes = changeLogAsHtml()
 }

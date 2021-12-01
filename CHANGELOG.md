@@ -1,3 +1,7 @@
+## 0.2.3 (2021-12-01):
+
+- Fixed compatibility with IntelliJ IDEA Community Edition 2021.3
+
 ## 0.2.2 (2021-10-20):
 
 - Update to IntelliJ IDEA Community Edition 2021.3
