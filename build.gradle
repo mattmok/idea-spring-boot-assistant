@@ -67,7 +67,7 @@ intellij {
 }
 
 patchPluginXml {
-    sinceBuild = 'IC-193.5662.53'
+    sinceBuild = '193.5662.53'
     untilBuild = ''
     pluginDescription = readmeXmlAsHtml()
     changeNotes = changeLogAsHtml()
