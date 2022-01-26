@@ -41,7 +41,7 @@ to [Semantic Versioning](https://semver.org).
 
 - After rebuild, generated metadata files in project is not correctly reindex-ed.
 - 'additional-spring-configuration-metadata.json' file is not been correctly processed sometimes.
-- Lack of document if @ConfigurationProperties annotated class is using lombok @Getter @Setter feature.
+- Document is missing while @ConfigurationProperties annotated class is using lombok to generate properties.
 - "com.intellij.diagnostic.PluginException: same CV with different captured context" while code completion.
 
 ## [0.2.2] - 2021-10-20
