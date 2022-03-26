@@ -17,12 +17,12 @@ buildscript {
 
 plugins {
     id "java"
-    id "org.jetbrains.intellij" version "1.2.0"
+    id "org.jetbrains.intellij" version "1.4.0"
     id "io.freefair.lombok" version "6.2.0"
 }
 
 group "dev.flikas"
-version '0.2.4'
+version '0.14.0-eap'
 
 sourceCompatibility = 1.8
 
@@ -61,7 +61,7 @@ String changeLogAsHtml() {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     type = 'IC'
-    version = '2019.3.1'
+    version = 'LATEST-EAP-SNAPSHOT'
     plugins = ['properties', 'yaml', 'maven', 'gradle', 'com.intellij.java']
     downloadSources = true
 }
