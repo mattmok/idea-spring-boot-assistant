@@ -16,6 +16,7 @@ to [Semantic Versioning](https://semver.org).
 - Auto-completion is not updated when @ConfigurationProperties annotated class is update and rebuild.
 - Javadoc is missing on lombok generated properties.
 - additional-spring-configuration-metadata.json file has not been read sometimes.
+- "com.intellij.diagnostic.PluginException: same CV with different captured context" while code completion.
 
 ## [0.2.2] - 2021-10-20
 ### Added

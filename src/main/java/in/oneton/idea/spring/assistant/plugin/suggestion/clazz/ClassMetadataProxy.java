@@ -36,7 +36,7 @@ public class ClassMetadataProxy implements MetadataProxy {
 
   private static final Logger log = Logger.getInstance(ClassMetadataProxy.class);
 
-  private static ConcurrentMap<String, Key<CachedValue<ClassMetadata>>> fqnToKey =
+  private static final ConcurrentMap<String, Key<CachedValue<ClassMetadata>>> fqnToKey =
       ContainerUtil.newConcurrentMap();
 
   @NotNull
@@ -188,4 +188,18 @@ public class ClassMetadataProxy implements MetadataProxy {
     T invoke(ClassMetadata classMetadata);
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    ClassMetadataProxy that = (ClassMetadataProxy) o;
+
+    return type.equals(that.type);
+  }
+
+  @Override
+  public int hashCode() {
+    return type.hashCode();
+  }
 }
