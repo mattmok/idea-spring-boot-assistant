@@ -347,7 +347,7 @@ public class MetadataNonPropertySuggestionNode extends MetadataSuggestionNode {
    * @return true if no children left & this item does not belong to any other source
    */
   @Override
-  public boolean removeRefCascadeDown(String containerPath) {
+  public synchronized boolean removeRefCascadeDown(String containerPath) {
     belongsTo.remove(containerPath);
     // If the current node & all its children belong to a single file, lets remove the whole tree
     if (belongsTo.size() == 0) {
@@ -469,7 +469,7 @@ public class MetadataNonPropertySuggestionNode extends MetadataSuggestionNode {
     return childrenToIterateOver;
   }
 
-  private void addProperty(SpringConfigurationMetadataProperty property, String originalName,
+  private synchronized void addProperty(SpringConfigurationMetadataProperty property, String originalName,
       String belongsTo) {
     addRefCascadeTillRoot(belongsTo);
     if (!hasChildren()) {
@@ -487,7 +487,7 @@ public class MetadataNonPropertySuggestionNode extends MetadataSuggestionNode {
     childrenTrie.put(name, childNode);
   }
 
-  private MetadataNonPropertySuggestionNode addChildren(String[] rawPathSegments, int startIndex,
+  private synchronized MetadataNonPropertySuggestionNode addChildren(String[] rawPathSegments, int startIndex,
       int endIndexIncl, String belongsTo) {
     addRefCascadeTillRoot(belongsTo);
     if (!hasChildren()) {
