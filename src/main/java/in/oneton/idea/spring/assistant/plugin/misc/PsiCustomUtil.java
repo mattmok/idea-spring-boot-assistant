@@ -87,14 +87,14 @@ public class PsiCustomUtil {
   public static PsiType safeGetValidType(@NotNull Module module, @NotNull String fqn) {
     try {
       // Intellij expects inner classes to be referred via `.` instead of `$`
-      PsiType type = JavaPsiFacade.getInstance(module.getProject()).getParserFacade()
+      PsiType type = JavaPsiFacade.getInstance(module.getProject()).getElementFactory()
                                   .createTypeFromText(fqn.replaceAll("\\$", "."), null);
       boolean typeValid = isValidType(type);
       if (typeValid) {
         if (type instanceof PsiClassType) {
-          return (PsiClassType) type;
+          return type;
         } else if (type instanceof PsiArrayType) {
-          return (PsiArrayType) type;
+          return type;
         }
       }
       return null;

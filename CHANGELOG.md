@@ -33,8 +33,8 @@ to [Semantic Versioning](https://semver.org).
 ### Changed
 
 - This plugin will be activated only in application*.yml/yaml files by default, this will avoid some annoying side
-  effects while you are editing other yaml/properties files, these settings can be changed at Settings->Editor->File
-  Types->"Spring yaml properties file".
+  effects while you are editing other yaml files, these settings can be changed at Settings->Editor->File Types->"Spring
+  yaml properties file".
 - The document of properties is better formatted.
 
 ### Fixed
