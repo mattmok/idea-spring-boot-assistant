@@ -347,7 +347,7 @@ public class MetadataNonPropertySuggestionNode extends MetadataSuggestionNode {
    * @return true if no children left & this item does not belong to any other source
    */
   @Override
-  public boolean removeRefCascadeDown(String containerPath) {
+  public synchronized boolean removeRefCascadeDown(String containerPath) {
     belongsTo.remove(containerPath);
     // If the current node & all its children belong to a single file, lets remove the whole tree
     if (belongsTo.size() == 0) {
@@ -395,7 +395,7 @@ public class MetadataNonPropertySuggestionNode extends MetadataSuggestionNode {
   public String getDocumentationForKey(Module module, String nodeNavigationPathDotDelimited) {
     if (isGroup()) {
       assert group != null;
-      return group.getDocumentation(nodeNavigationPathDotDelimited);
+      return group.getDocumentation(module, nodeNavigationPathDotDelimited);
     }
     throw new RuntimeException(
         "Documentation not supported for this element. Call supportsDocumentation() first");
@@ -469,7 +469,7 @@ public class MetadataNonPropertySuggestionNode extends MetadataSuggestionNode {
     return childrenToIterateOver;
   }
 
-  private void addProperty(SpringConfigurationMetadataProperty property, String originalName,
+  private synchronized void addProperty(SpringConfigurationMetadataProperty property, String originalName,
       String belongsTo) {
     addRefCascadeTillRoot(belongsTo);
     if (!hasChildren()) {
@@ -487,7 +487,7 @@ public class MetadataNonPropertySuggestionNode extends MetadataSuggestionNode {
     childrenTrie.put(name, childNode);
   }
 
-  private MetadataNonPropertySuggestionNode addChildren(String[] rawPathSegments, int startIndex,
+  private synchronized MetadataNonPropertySuggestionNode addChildren(String[] rawPathSegments, int startIndex,
       int endIndexIncl, String belongsTo) {
     addRefCascadeTillRoot(belongsTo);
     if (!hasChildren()) {
@@ -501,7 +501,7 @@ public class MetadataNonPropertySuggestionNode extends MetadataSuggestionNode {
     String rawPathSegment = rawPathSegments[startIndex];
     String pathSegment = SuggestionNode.sanitise(rawPathSegment);
     MetadataNonPropertySuggestionNode childNode =
-        MetadataNonPropertySuggestionNode.class.cast(childLookup.get(pathSegment));
+        (MetadataNonPropertySuggestionNode) childLookup.get(pathSegment);
     if (childNode == null) {
       childNode = MetadataNonPropertySuggestionNode.newInstance(rawPathSegment, this, belongsTo);
       childNode.setParent(this);
@@ -541,6 +541,7 @@ public class MetadataNonPropertySuggestionNode extends MetadataSuggestionNode {
 
   private void updateGroupType(Module module, SpringConfigurationMetadataGroup group) {
     if (group != null && group.getClassName() != null) {
+      group.refreshDelegate(module);
       PsiType groupPsiType = safeGetValidType(module, group.getClassName());
       if (groupPsiType != null) {
         group.setNodeType(PsiCustomUtil.getSuggestionNodeType(groupPsiType));
