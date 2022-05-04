@@ -12,7 +12,7 @@ to [Semantic Versioning](https://semver.org).
 - Inspection: If the property is not defined.
 - Inspection: If the property value's type is wrong.
 - Inspection: If the property key is duplicated.
-- Intelligence insertion: add new property anywhere, insertion will happen at right place.
+- Intelligence insertion in yaml file: add new property anywhere, insertion will happen at right place.
 - Bug reporting.
 - Support
   for [value providers](https://docs.spring.io/spring-boot/docs/current/reference/html/configuration-metadata.html#configuration-metadata.manual-hints.value-providers)
