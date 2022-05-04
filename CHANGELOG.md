@@ -12,16 +12,26 @@ to [Semantic Versioning](https://semver.org).
 - Inspection: If the property is not defined.
 - Inspection: If the property value's type is wrong.
 - Inspection: If the property key is duplicated.
-- Intelligence insertion in yaml file: add new property anywhere, insertion will happen at right place.
 - Bug reporting.
 - Support
   for [value providers](https://docs.spring.io/spring-boot/docs/current/reference/html/configuration-metadata.html#configuration-metadata.manual-hints.value-providers)
-  .
-- Join lines will join keys in yaml.
 
 ### Changed
 
+### Deprecated
+
+### Removed
+
 ### Fixed
+
+### Security
+
+## [0.14.0-EAP]
+
+### Added
+
+- Intelligence insertion in yaml file: add new property anywhere, insertion will happen at right place.
+- Join lines will join keys in yaml.
 
 ## [0.13.0] - 2022-05-04
 
@@ -47,12 +57,17 @@ to [Semantic Versioning](https://semver.org).
 ## [0.2.2] - 2021-10-20
 
 ### Added
+
 - Compatible with IntelliJ IDEA Community Edition 2021.3.
 
 ## [0.1.3] - 2021-10-10
+
 ### Fixed
+
 - Fixed issue with metadata not updated after maven reimport.
 
 ## [0.1.0] - 2021-10-08
+
 ### Changed
+
 - This plugin is now compatible with IntelliJ IDEA Community Edition from version 2019.3 to 2021.2.
