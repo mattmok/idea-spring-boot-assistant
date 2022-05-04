@@ -23,7 +23,7 @@ to [Semantic Versioning](https://semver.org).
 
 ### Fixed
 
-## [0.13.0-eap]
+## [0.13.0] - 2022-05-04
 
 ### Added
 
@@ -40,7 +40,7 @@ to [Semantic Versioning](https://semver.org).
 ### Fixed
 
 - After rebuild, generated metadata files in project is not correctly reindex-ed.
-- 'additional-spring-configuration-metadata.json' file is not been correctly processed sometimes.
+- 'additional-spring-configuration-metadata.json' file has not been correctly processed sometimes.
 - Document is missing while @ConfigurationProperties annotated class is using lombok to generate properties.
 - "com.intellij.diagnostic.PluginException: same CV with different captured context" while code completion.
 
