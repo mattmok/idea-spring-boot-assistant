@@ -13,10 +13,7 @@ import in.oneton.idea.spring.assistant.plugin.suggestion.service.SuggestionServi
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.yaml.psi.YAMLKeyValue;
-import org.jetbrains.yaml.psi.YAMLMapping;
 import org.jetbrains.yaml.psi.YAMLSequence;
-import org.jetbrains.yaml.psi.YAMLSequenceItem;
-import org.jetbrains.yaml.psi.YAMLValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +21,6 @@ import java.util.Set;
 
 import static in.oneton.idea.spring.assistant.plugin.misc.GenericUtil.truncateIdeaDummyIdentifier;
 import static in.oneton.idea.spring.assistant.plugin.misc.PsiCustomUtil.findModule;
-import static in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNode.sanitise;
 import static in.oneton.idea.spring.assistant.plugin.suggestion.completion.FileType.yaml;
 import static java.util.Objects.requireNonNull;
 
@@ -48,38 +44,11 @@ class YamlCompletionProvider extends CompletionProvider<CompletionParameters> {
       return;
     }
 
-    Set<String> siblingsToExclude = null;
-
     PsiElement elementContext = element.getContext();
     PsiElement parent = requireNonNull(elementContext).getParent();
     if (parent instanceof YAMLSequence) {
       // lets force user to create array element prefix before he can ask for suggestions
       return;
-    }
-    if (parent instanceof YAMLSequenceItem) {
-      for (PsiElement child : parent.getParent().getChildren()) {
-        if (child != parent) {
-          if (child instanceof YAMLSequenceItem) {
-            YAMLValue value = ((YAMLSequenceItem) child).getValue();
-            if (value != null) {
-              siblingsToExclude = getNewIfNotPresent(siblingsToExclude);
-              siblingsToExclude.add(sanitise(value.getText()));
-            }
-          } else if (child instanceof YAMLKeyValue) {
-            siblingsToExclude = getNewIfNotPresent(siblingsToExclude);
-            siblingsToExclude.add(sanitise(((YAMLKeyValue) child).getKeyText()));
-          }
-        }
-      }
-    } else if (parent instanceof YAMLMapping) {
-      for (PsiElement child : parent.getChildren()) {
-        if (child != elementContext) {
-          if (child instanceof YAMLKeyValue) {
-            siblingsToExclude = getNewIfNotPresent(siblingsToExclude);
-            siblingsToExclude.add(sanitise(((YAMLKeyValue) child).getKeyText()));
-          }
-        }
-      }
     }
 
     List<LookupElement> suggestions;
@@ -98,8 +67,13 @@ class YamlCompletionProvider extends CompletionProvider<CompletionParameters> {
       context = requireNonNull(context).getParent();
     } while (context != null);
 
-    suggestions = service.findSuggestionsForQueryPrefix(yaml, element, ancestralKeys, queryWithDotDelimitedPrefixes,
-        siblingsToExclude);
+    suggestions = service.findSuggestionsForQueryPrefix(
+        yaml,
+        element,
+        ancestralKeys,
+        queryWithDotDelimitedPrefixes,
+        null
+    );
 
     if (suggestions != null) {
       suggestions.forEach(resultSet::addElement);
