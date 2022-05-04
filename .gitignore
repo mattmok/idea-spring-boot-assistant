@@ -16,3 +16,4 @@ out/
 **/*.iwl
 /chain.crt
 /private.pem
+/cache
