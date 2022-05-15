@@ -114,6 +114,7 @@
         serviceInterface="in.oneton.idea.spring.assistant.plugin.suggestion.service.SuggestionService"
         serviceImplementation="in.oneton.idea.spring.assistant.plugin.suggestion.service.SuggestionServiceImpl"/>
 
+    <errorHandler implementation="dev.flikas.spring.boot.assistant.idea.plugin.report.GitHubReporter"/>
   </extensions>
 
 </idea-plugin>
