@@ -25,6 +25,10 @@ This plugin adds auto-completion support for Spring Boot configuration files (ap
 4. Quick documentation for groups & properties (not all groups & properties will have documentation, depends on whether
    the original author specified documentation or not for any given element).
 
+### Bug report:
+
+Please create an issue at [GitHub](https://github.com/flikas/idea-spring-boot-assistant/issues).
+
 <!-- Plugin description end -->
 
 ## Installation (in 3 easy steps)
@@ -86,15 +90,18 @@ For this to work, you need to ensure the following steps are followed for your p
    to `File | Settings | Build, Execution, Deployment | Build Tools | Gradle | Runner => Delegate IDE build/run actions to gradle`
    & restart the IDE. This will ensure that gradle plugin generates metadata & Intellij is pointing to it
 
-> If you want to look at a sample project, look inside [samples](samples/) directory where the above setup is done. These samples allow properties from `@ConfigurationProperties` to be shown as suggestions
+> If you want to look at a sample project, look inside [samples](samples/) directory where the above setup is done.
+> These samples allow properties from `@ConfigurationProperties` to be shown as suggestions
 
 **IMPORTANT**
 
-> After changing your custom `@ConfigurationProperties` files, suggestions would be refreshed only after you trigger the build explicitly using keyboard (`Ctrl+F9`)/UI
+> After changing your custom `@ConfigurationProperties` files, suggestions would be refreshed only after you trigger the
+> build explicitly using keyboard (`Ctrl+F9`)/UI
 
 ### Known behaviour in ambiguous cases
 
-> 1. If two groups from different auto configurations conflict with each other, the documentation for the group picked is random & undefined
+> 1. If two groups from different auto configurations conflict with each other, the documentation for the group picked
+     is random & undefined
 > 2. If a group & property represent the depth, the behaviour of the plugin is undefined.
 
 ## Support

@@ -12,7 +12,7 @@ to [Semantic Versioning](https://semver.org).
 - Inspection: If the property is not defined.
 - Inspection: If the property value's type is wrong.
 - Inspection: If the property key is duplicated.
-- Bug reporting.
+- Join lines will join keys in yaml.
 - Support
   for [value providers](https://docs.spring.io/spring-boot/docs/current/reference/html/configuration-metadata.html#configuration-metadata.manual-hints.value-providers)
 
@@ -31,7 +31,7 @@ to [Semantic Versioning](https://semver.org).
 ### Added
 
 - Intelligence insertion in yaml file: add new property anywhere, insertion will happen at right place.
-- Join lines will join keys in yaml.
+- Bug reporting.
 
 ## [0.13.0] - 2022-05-04
 
