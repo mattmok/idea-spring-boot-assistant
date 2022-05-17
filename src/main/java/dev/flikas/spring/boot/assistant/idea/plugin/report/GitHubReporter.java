@@ -86,6 +86,7 @@ public class GitHubReporter extends ErrorReportSubmitter {
       URIBuilder uriBuilder = new URIBuilder("https://github.com/flikas/idea-spring-boot-assistant/issues/new");
       uriBuilder.addParameter("body", body.toString());
       uriBuilder.addParameter("title", "[BUG]" + StringUtil.capitalize(events[0].getMessage()));
+      uriBuilder.addParameter("labels", "bug");
       BrowserUtil.browse(uriBuilder.build());
     } catch (URISyntaxException e) {
       throw new RuntimeException(e);
