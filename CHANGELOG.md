@@ -26,12 +26,12 @@ to [Semantic Versioning](https://semver.org).
 
 ### Security
 
-## [0.14.0-EAP]
+## [0.14.0] - 2022-05-21
 
 ### Added
 
-- Intelligence insertion in yaml file: add new property anywhere, insertion will happen at right place.
-- Bug reporting.
+- Intelligence insert in yaml file: Add new property anywhere, insertion will happen at right place.
+- Bug reporting: Create issue at GitHub from IDE error dialog.
 
 ## [0.13.0] - 2022-05-04
 

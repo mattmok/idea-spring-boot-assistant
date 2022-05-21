@@ -14,7 +14,7 @@ java {
 }
 
 group = "dev.flikas"
-version = "0.14.0-EAP"
+version = "0.14.0"
 
 repositories {
     mavenCentral()
