@@ -68,7 +68,7 @@ public class YamlDocumentationProvider extends AbstractDocumentationProvider {
   @Override
   public PsiElement getCustomDocumentationElement(@NotNull Editor editor, @NotNull PsiFile file,
       @Nullable PsiElement element) {
-    if (!(file.getVirtualFile().getFileType() instanceof YamlPropertiesFileType)) {
+    if (file.getVirtualFile() == null || !(file.getVirtualFile().getFileType() instanceof YamlPropertiesFileType)) {
       return super.getCustomDocumentationElement(editor, file, element);
     }
     if (element == null) {
