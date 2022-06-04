@@ -6,8 +6,8 @@ name: Publish branch master to EAP channel
 on:
   workflow_dispatch:
   push:
-    branches:
-      - master
+    tags:
+      - '*'
 
 jobs:
   build:
