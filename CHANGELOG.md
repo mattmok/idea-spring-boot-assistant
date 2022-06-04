@@ -24,9 +24,16 @@ to [Semantic Versioning](https://semver.org).
 
 ### Fixed
 
-- [#15](https://github.com/flikas/idea-spring-boot-assistant/issues/15)
-
 ### Security
+
+## [0.14.1] - 2022-06-04
+
+### Fixed
+
+- [#15](https://github.com/flikas/idea-spring-boot-assistant/issues/15) - File not found rarely when reading user
+  defined spring-configuration-metadata file.
+- [#16](https://github.com/flikas/idea-spring-boot-assistant/issues/16) - Cannot get element's document when editing
+  yaml file which is exists only in memory.
 
 ## [0.14.0] - 2022-05-21
 
