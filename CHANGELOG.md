@@ -24,6 +24,8 @@ to [Semantic Versioning](https://semver.org).
 
 ### Fixed
 
+- [#15](https://github.com/flikas/idea-spring-boot-assistant/issues/15)
+
 ### Security
 
 ## [0.14.0] - 2022-05-21
