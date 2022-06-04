@@ -352,7 +352,7 @@ public class SuggestionServiceImpl implements SuggestionService {
         seenContainerPathToContainerInfo.put(metadataContainerInfo.getContainerArchiveOrFileRef(),
             metadataContainerInfo);
       } catch (IOException e) {
-        log.error("Exception encountered while processing metadata file: " + metadataFilePath, e);
+        log.warn("Exception encountered while processing metadata file: " + metadataFilePath, e);
         removeReferences(metadataContainerInfo);
       }
     }
