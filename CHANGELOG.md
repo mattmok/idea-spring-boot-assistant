@@ -26,7 +26,7 @@ to [Semantic Versioning](https://semver.org).
 
 ### Security
 
-## [0.14.1] - 2022-06-04
+## [0.14.3] - 2022-06-04
 
 ### Fixed
 
