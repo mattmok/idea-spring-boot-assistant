@@ -26,6 +26,13 @@ to [Semantic Versioning](https://semver.org).
 
 ### Security
 
+## [0.14.4] - 2022-10-05
+
+### Added
+
+- [#37](https://github.com/flikas/idea-spring-boot-assistant/pull/37) - Support `bootstrap.yaml` by default. (by
+  guchengod)
+
 ## [0.14.3] - 2022-06-04
 
 ### Fixed

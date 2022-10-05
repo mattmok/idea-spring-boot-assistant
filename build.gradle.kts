@@ -1,4 +1,3 @@
-import org.gradle.api.JavaVersion.VERSION_11
 import org.jetbrains.changelog.date
 import org.jetbrains.changelog.markdownToHTML
 
@@ -10,11 +9,11 @@ plugins {
 }
 
 java {
-    sourceCompatibility = VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_1_8
 }
 
 group = "dev.flikas"
-version = "0.14.3"
+version = "0.14.4"
 
 repositories {
     mavenCentral()
