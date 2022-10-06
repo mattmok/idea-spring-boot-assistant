@@ -26,11 +26,12 @@ to [Semantic Versioning](https://semver.org).
 
 ### Security
 
-## [0.14.5-RC1] - 2022-10-06
+## [0.14.5-EAP] - 2022-10-06
 
 ### Removed
 
-- Removed supports of IntelliJ IDEA Ultimate Edition, it has bundled Spring Framework support.
+- If there is bundled Spring Framework support, this plugin will be disabled(the bundled Spring support is good enough),
+  that means IntelliJ IDEA Ultimate is not supported.
 
 ### Fixed
 

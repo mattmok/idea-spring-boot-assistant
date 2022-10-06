@@ -13,7 +13,7 @@ java {
 }
 
 group = "dev.flikas"
-version = "0.14.5-RC1"
+version = "0.14.5-EAP"
 
 repositories {
     mavenCentral()
@@ -30,7 +30,7 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    type.set("IC")
+    type.set("IU")
     version.set("LATEST-EAP-SNAPSHOT")
     sameSinceUntilBuild.set(false)
     plugins.set(listOf("properties", "yaml", "maven", "gradle", "com.intellij.java"))
