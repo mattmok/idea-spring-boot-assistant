@@ -62,6 +62,9 @@
   <depends config-file="maven.xml" optional="true">org.jetbrains.idea.maven</depends>
   <depends config-file="gradle.xml" optional="true">com.intellij.gradle</depends>
 
+  <incompatible-with>com.intellij.spring</incompatible-with>
+  <incompatible-with>com.intellij.spring.boot</incompatible-with>
+
   <!-- Minimum and maximum build of IDE compatible with the plugin -->
   <!-- Will be auto populated from CHANGELOG.md by plugin
   <idea-version since-build="212" until-build="212.*"/>

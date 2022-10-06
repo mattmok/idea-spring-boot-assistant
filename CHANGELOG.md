@@ -21,6 +21,7 @@ to [Semantic Versioning](https://semver.org).
 ### Deprecated
 
 ### Removed
+- Removed supports of IntelliJ IDEA Ultimate Edition, it has bundled Spring Framework support.
 
 ### Fixed
 
