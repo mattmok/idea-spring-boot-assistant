@@ -59,7 +59,7 @@ import static com.intellij.psi.util.InheritanceUtil.isInheritor;
 import static com.intellij.psi.util.PropertyUtil.getPropertyName;
 import static com.intellij.psi.util.PropertyUtil.isSimplePropertyGetter;
 import static com.intellij.psi.util.PropertyUtil.isSimplePropertySetter;
-import static com.intellij.psi.util.PsiModificationTracker.JAVA_STRUCTURE_MODIFICATION_COUNT;
+import static com.intellij.psi.util.PsiModificationTracker.MODIFICATION_COUNT;
 import static com.intellij.psi.util.PsiTypesUtil.getClassType;
 import static com.intellij.psi.util.PsiTypesUtil.hasUnresolvedComponents;
 import static com.intellij.psi.util.PsiUtil.extractIterableTypeParameter;
@@ -148,7 +148,7 @@ public class PsiCustomUtil {
     } else if (type instanceof PsiPrimitiveType) {
       SuggestionNodeType nodeType = getSuggestionNodeTypeForPrimitive(type);
       return nodeType != null ? nodeType : UNKNOWN_CLASS;
-    } else if (type instanceof PsiClassType) {
+    } else if (type instanceof PsiClassType psiClassType) {
       SuggestionNodeType nodeType = getSuggestionNodeTypeForPrimitive(type);
       if (nodeType != null) {
         return nodeType;
@@ -157,7 +157,6 @@ public class PsiCustomUtil {
       }
 
       // TODO: Need to check if this is required or not?
-      PsiClassType psiClassType = (PsiClassType) type;
       PsiClassType.ClassResolveResult classResolveResult = psiClassType.resolveGenerics();
       if (classResolveResult.isValidResult()) {
         PsiClass psiClass = requireNonNull(classResolveResult.getElement());
@@ -313,8 +312,7 @@ public class PsiCustomUtil {
         type = (lowerBound != NULL ? lowerBound : ((PsiCapturedWildcardType) type).getUpperBound());
       }
 
-      if (type instanceof PsiClassType) {
-        PsiClassType classType = (PsiClassType) type;
+      if (type instanceof PsiClassType classType) {
         Collection<PsiType> typeParams =
             classType.resolveGenerics().getSubstitutor().getSubstitutionMap().values();
         TObjectHashingStrategy<PsiClass> nameComparingHashingStrategy =
@@ -423,7 +421,7 @@ public class PsiCustomUtil {
       @Nullable PsiClass psiClass) {
     if (psiClass != null) {
       return getCachedValue(psiClass, SPRING_ASSISTANT_PLUGIN_PROPERTY_TO_CLASS_MEMBER_WRAPPER_KEY,
-          () -> create(prepareWritableProperties(psiClass), JAVA_STRUCTURE_MODIFICATION_COUNT)
+          () -> create(prepareWritableProperties(psiClass), MODIFICATION_COUNT)
       );
     }
     return null;
@@ -508,8 +506,7 @@ public class PsiCustomUtil {
     if (declaration instanceof PsiField) {
       return getFieldType((PsiField) declaration);
     }
-    if (declaration instanceof PsiMethod) {
-      final PsiMethod method = (PsiMethod) declaration;
+    if (declaration instanceof final PsiMethod method) {
       if (method.getParameterList().getParametersCount() != 0) {
         return getSetterArgumentType(method);
       }
@@ -537,7 +534,7 @@ public class PsiCustomUtil {
       final PsiClass fieldClass = resolveResult.getElement();
       if (fieldClass == null) {
         final PsiType propertyType = eraseFreeTypeParameters(fieldType, field);
-        return create(propertyType, JAVA_STRUCTURE_MODIFICATION_COUNT);
+        return create(propertyType, MODIFICATION_COUNT);
       }
       return null;
     });
@@ -549,9 +546,9 @@ public class PsiCustomUtil {
       final PsiParameter[] parameters = method.getParameterList().getParameters();
       if (!method.hasModifierProperty(STATIC) && parameters.length == 1) {
         final PsiType argumentType = eraseFreeTypeParameters(parameters[0].getType(), method);
-        return create(argumentType, JAVA_STRUCTURE_MODIFICATION_COUNT);
+        return create(argumentType, MODIFICATION_COUNT);
       }
-      return create(null, JAVA_STRUCTURE_MODIFICATION_COUNT);
+      return create(null, MODIFICATION_COUNT);
     });
   }
 
@@ -575,7 +572,7 @@ public class PsiCustomUtil {
   private static PsiType getGetterReturnType(@NotNull PsiMethod method) {
     return getCachedValue(method, SPRING_ASSISTANT_PLUGIN_RETURN_TYPE_KEY, () -> {
       final PsiType returnType = eraseFreeTypeParameters(method.getReturnType(), method);
-      return create(returnType, JAVA_STRUCTURE_MODIFICATION_COUNT);
+      return create(returnType, MODIFICATION_COUNT);
     });
   }
 

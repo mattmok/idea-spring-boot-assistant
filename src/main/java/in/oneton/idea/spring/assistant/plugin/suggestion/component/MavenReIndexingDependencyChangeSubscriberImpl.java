@@ -27,7 +27,7 @@ public class MavenReIndexingDependencyChangeSubscriberImpl implements StartupAct
       debug(() -> log
           .debug("Subscribing to maven dependency updates for project " + project.getName()));
       MessageBusConnection connection = project.getMessageBus().connect();
-      connection.subscribe(MavenImportListener.TOPIC, (importedProjects, newModules) -> {
+      connection.subscribe(MavenImportListener.TOPIC, (MavenImportListener) (importedProjects, newModules) -> {
         boolean proceed = importedProjects.stream().anyMatch(
             p -> project.getName().equals(p.getDisplayName()) && p.getDirectory().equals(project.getBasePath()));
 
