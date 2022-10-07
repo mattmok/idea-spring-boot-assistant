@@ -1,0 +1,39 @@
+<html>
+<body>
+Reports undefined keys in Spring Boot configuration files.
+<p>
+    The definition of keys is based on
+    <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/configuration-metadata.html#appendix.configuration-metadata">
+        Spring Boot configuration metadata
+    </a>.
+</p>
+<p>
+    An undefined key can be fixed by either:
+<ul>
+    <li>If it is a typo, make it correct.</li>
+    <li>If it is useless, remove it.</li>
+    <li>If it is a correct user defined key:
+        <ul>
+            <li>If it is from a <code>@ConfigurationProperties</code> annotated class, configure
+                <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/configuration-metadata.html#appendix.configuration-metadata.annotation-processor">
+                    the annotation processor
+                </a>.
+            </li>
+            <li>If not, define this property in
+                <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/configuration-metadata.html#appendix.configuration-metadata.annotation-processor.adding-additional-metadata">
+                    <code>META-INF/additional-spring-configuration-metadata.json</code> file
+                </a>.
+            </li>
+        </ul>
+    </li>
+</ul>
+</p>
+<p>
+    See
+    <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/configuration-metadata.html">
+        Spring Boot document
+    </a> for more information.
+</p>
+<!-- tooltip end -->
+</body>
+</html>

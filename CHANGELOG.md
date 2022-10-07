@@ -9,9 +9,8 @@ to [Semantic Versioning](https://semver.org).
 
 ### Added
 
-- Inspection: If the property is not defined.
+- Inspection: Report undefined properties.
 - Inspection: If the property value's type is wrong.
-- Inspection: If the property key is duplicated.
 - Join lines will join keys in yaml.
 - Support
   for [value providers](https://docs.spring.io/spring-boot/docs/current/reference/html/configuration-metadata.html#configuration-metadata.manual-hints.value-providers)

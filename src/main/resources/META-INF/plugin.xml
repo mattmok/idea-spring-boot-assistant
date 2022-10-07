@@ -118,6 +118,18 @@
         serviceImplementation="in.oneton.idea.spring.assistant.plugin.suggestion.service.SuggestionServiceImpl"/>
 
     <errorHandler implementation="dev.flikas.spring.boot.assistant.idea.plugin.report.GitHubReporter"/>
+
+    <localInspection
+        language="yaml"
+        groupPath="Spring Boot"
+        groupName="Configuration"
+        displayName="Undefined key"
+        enabledByDefault="true"
+        level="WARNING"
+        editorAttributes="WRONG_REFERENCES_ATTRIBUTES"
+        suppressId="undefined"
+        implementationClass="dev.flikas.spring.boot.assistant.idea.plugin.inspection.KeyNotDefinedInspection"
+    />
   </extensions>
 
 </idea-plugin>
