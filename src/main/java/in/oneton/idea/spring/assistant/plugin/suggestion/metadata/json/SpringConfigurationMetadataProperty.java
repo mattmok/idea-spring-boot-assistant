@@ -447,7 +447,7 @@ public class SpringConfigurationMetadataProperty
     MetadataProxy delegate = getDelegate(module);
     if (delegate != null) {
       assert delegate instanceof MapClassMetadataProxy;
-      return invoker.invoke((MapClassMetadataProxy) delegate);
+      return invoker.invoke(delegate);
     }
     return null;
   }
@@ -472,7 +472,7 @@ public class SpringConfigurationMetadataProperty
   }
 
   @Nullable
-  private MetadataProxy getDelegate(Module module) {
+  public MetadataProxy getDelegate(Module module) {
     if (!delegateCreationAttempted) {
       refreshDelegate(module);
     }

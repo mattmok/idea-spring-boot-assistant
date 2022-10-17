@@ -5,6 +5,7 @@ import in.oneton.idea.spring.assistant.plugin.suggestion.Suggestion;
 import in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNode;
 import in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNodeType;
 import in.oneton.idea.spring.assistant.plugin.suggestion.completion.FileType;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -12,8 +13,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 
-class IterableKeySuggestionNode implements SuggestionNode {
+public class IterableKeySuggestionNode implements SuggestionNode {
 
+  @Getter
   private final SuggestionNode unwrapped;
 
   IterableKeySuggestionNode(SuggestionNode unwrapped) {

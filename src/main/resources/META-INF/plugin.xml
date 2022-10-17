@@ -130,6 +130,15 @@
         suppressId="undefined"
         implementationClass="dev.flikas.spring.boot.assistant.idea.plugin.inspection.KeyNotDefinedInspection"
     />
+    <localInspection
+        language="yaml"
+        groupPath="Spring Boot"
+        groupName="Configuration"
+        displayName="Invalid value"
+        enabledByDefault="true"
+        level="WARNING"
+        suppressId="invalidValue"
+        implementationClass="dev.flikas.spring.boot.assistant.idea.plugin.inspection.InvalidValueInspection"/>
   </extensions>
 
 </idea-plugin>

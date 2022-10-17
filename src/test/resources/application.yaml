@@ -1,0 +1,87 @@
+server:
+  jetty:
+    connection-idle-timeout:
+  address:
+  reactive:
+    session:
+      timeout:
+  tomcat:
+    accept-count:
+    connection-timeout: 60
+    threads:
+      max:
+    accesslog:
+      buffered:
+    basedir:
+  port: xxf
+abc: x
+spring:
+  devtools:
+    add-properties:
+    remote:
+  application:
+    name:
+  cloud.discovery.client.simple:
+    instances:
+      a:
+        - port: 1
+          host: 127.0.0.1
+        - host: 127.0.0.1
+          serviceId: service
+          port: 12
+      b:
+        - host: 127.0.0.1
+          port: 12
+  activemq:
+    packages:
+      trust-all:
+  artemis:
+    embedded:
+      data-directory:
+logging:
+  charset:
+    console: utf-8
+  pattern:
+    rolling-file-name: "xx"
+  level:
+    root: info
+  logback:
+    rollingpolicy:
+      max-file-size: 100MB
+
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      backendA:
+        permittedNumberOfCallsInHalfOpenState:
+        exponentialBackoffMultiplier:
+        allowHealthIndicatorToFail:
+        baseConfig: woha
+      backendB:
+        baseConfig: o
+        failureRateThreshold:
+
+
+---
+example:
+  server:
+    port:
+    key: value
+           - name: python
+           id: 1
+                 - name: "c++"
+                 id: 2
+  client:
+    - client1
+    - "client2"
+  longString: |
+    abcidosie
+    sjigoes
+    jsdfiwoeige
+  longString2: >-
+    jsaidfoei
+    sdjfoiwe
+    sjfoeiwreow
+      
+
