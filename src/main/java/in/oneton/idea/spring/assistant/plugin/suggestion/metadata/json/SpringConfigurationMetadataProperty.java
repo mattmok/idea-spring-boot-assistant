@@ -87,6 +87,7 @@ public class SpringConfigurationMetadataProperty
    * Specify whether the PROPERTY is deprecated. If the field is not deprecated or if that information is not known, it may be omitted. The next table offers more detail about the springConfigurationMetadataDeprecation attribute.
    */
   @Nullable
+  @Getter
   @Setter
   private SpringConfigurationMetadataDeprecation deprecation;
   /**

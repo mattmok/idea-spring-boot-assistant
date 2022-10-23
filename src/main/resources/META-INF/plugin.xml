@@ -139,6 +139,24 @@
         level="WARNING"
         suppressId="invalidValue"
         implementationClass="dev.flikas.spring.boot.assistant.idea.plugin.inspection.InvalidValueInspection"/>
+    <localInspection
+        language="yaml"
+        groupPath="Spring Boot"
+        groupName="Configuration"
+        displayName="Property removed"
+        enabledByDefault="true"
+        level="WARNING"
+        editorAttributes="MARKED_FOR_REMOVAL_ATTRIBUTES"
+        implementationClass="dev.flikas.spring.boot.assistant.idea.plugin.inspection.PropertyRemovedInspection"/>
+    <localInspection
+        language="yaml"
+        groupPath="Spring Boot"
+        groupName="Configuration"
+        displayName="Property deprecated"
+        enabledByDefault="true"
+        level="WARNING"
+        editorAttributes="DEPRECATED_ATTRIBUTES"
+        implementationClass="dev.flikas.spring.boot.assistant.idea.plugin.inspection.PropertyDeprecatedInspection"/>
   </extensions>
 
 </idea-plugin>
