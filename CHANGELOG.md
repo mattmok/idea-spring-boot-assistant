@@ -6,10 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
-
 ### Added
-
-- Inspection: Report deprecated properties.
 - Join lines will join keys in yaml.
 - Support
   for [value providers](https://docs.spring.io/spring-boot/docs/current/reference/html/configuration-metadata.html#configuration-metadata.manual-hints.value-providers)
@@ -24,12 +21,18 @@ to [Semantic Versioning](https://semver.org).
 
 ### Security
 
+## [0.16-EAP] - 2022-10-23
+
+### Added
+
+- Inspection: Reports deprecated properties.
+
 ## [0.15.0] - 2022-10-17
 
 ### Added
 
-- Inspection: Report undefined properties.
-- Inspection: Report invalid property values.
+- Inspection: Reports undefined properties.
+- Inspection: Reports invalid property values.
 
 ## [0.14.5] - 2022-10-06
 
@@ -39,7 +42,6 @@ to [Semantic Versioning](https://semver.org).
   that means IntelliJ IDEA Ultimate is not supported.
 
 ### Fixed
-
 - Compatibility improvements.
 
 ## [0.14.4] - 2022-10-05
