@@ -21,7 +21,7 @@ to [Semantic Versioning](https://semver.org).
 
 ### Security
 
-## [0.16.0-EAP] - 2022-10-23
+## [0.16.0] - 2022-10-23
 
 ### Added
 
