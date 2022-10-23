@@ -269,14 +269,16 @@ public class SpringConfigurationMetadataProperty
       doc.append(SECTION_HEADER_START)
          .append("Deprecation:")
          .append(SECTION_SEPARATOR)
-         .append("<p><b>").append(isDeprecatedError() ?
+         .append("<p><b>")
+         .append(isDeprecatedError() ?
              "ERROR: DO NOT USE THIS PROPERTY AS IT IS COMPLETELY UNSUPPORTED" :
-             "WARNING: PROPERTY IS DEPRECATED").append("</b></p>");
+             "WARNING: PROPERTY IS DEPRECATED")
+         .append("</b></p>");
       if (deprecation.getReason() != null) {
-        doc.append("@deprecated Reason: ").append(deprecation.getReason());
+        doc.append("<p><b>Reason:</b> ").append(deprecation.getReason()).append("</p>");
       }
       if (deprecation.getReplacement() != null) {
-        doc.append("<p>Replaced by property <b>").append(deprecation.getReplacement())
+        doc.append("<p>Replaced by property:<b> ").append(deprecation.getReplacement())
            .append("</b></p>");
       }
       doc.append(SECTION_END);
