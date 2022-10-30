@@ -6,10 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com), and this 
 to [Semantic Versioning](https://semver.org).
 
 ## [Unreleased]
+
 ### Added
-- Join lines will join keys in yaml.
+
+- Split key into two lines by pressing Enter
 - Support
   for [value providers](https://docs.spring.io/spring-boot/docs/current/reference/html/configuration-metadata.html#configuration-metadata.manual-hints.value-providers)
+- Better setter navigate: from configuration property source to configuration file.
 
 ### Changed
 
@@ -20,6 +23,12 @@ to [Semantic Versioning](https://semver.org).
 ### Fixed
 
 ### Security
+
+## [0.17.0-EAP] - 2022-10-30
+
+### Added
+
+- Join lines will join keys in proper format.
 
 ## [0.16.0] - 2022-10-23
 
@@ -35,9 +44,7 @@ to [Semantic Versioning](https://semver.org).
 - Inspection: Reports invalid property values.
 
 ## [0.14.5] - 2022-10-06
-
 ### Removed
-
 - If there is bundled Spring Framework support, this plugin will be disabled(the bundled Spring support is good enough),
   that means IntelliJ IDEA Ultimate is not supported.
 
