@@ -9,7 +9,6 @@ to [Semantic Versioning](https://semver.org).
 
 ### Added
 
-- Split key into two lines by pressing Enter
 - Support
   for [value providers](https://docs.spring.io/spring-boot/docs/current/reference/html/configuration-metadata.html#configuration-metadata.manual-hints.value-providers)
 - Better setter navigate: from configuration property source to configuration file.
@@ -28,7 +27,8 @@ to [Semantic Versioning](https://semver.org).
 
 ### Added
 
-- Join lines will join keys in proper format.
+- Join lines(Usually binds to `Ctrl+Shift+J` or `⌃ ⇧ J`) will join keys in proper format.
+- Split key into two lines(by pressing `Enter`) at a dot(`.`) will split key in proper format.
 
 ## [0.16.0] - 2022-10-23
 

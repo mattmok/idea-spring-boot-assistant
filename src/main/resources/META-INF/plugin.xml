@@ -120,6 +120,7 @@
     <errorHandler implementation="dev.flikas.spring.boot.assistant.idea.plugin.report.GitHubReporter"/>
 
     <joinLinesHandler implementation="dev.flikas.spring.boot.assistant.idea.plugin.editing.YamlJoinLinesHandler"/>
+    <enterHandlerDelegate implementation="dev.flikas.spring.boot.assistant.idea.plugin.editing.YamlSplitKeyProcessor"/>
 
     <localInspection
             language="yaml"
@@ -130,7 +131,7 @@
             level="WARNING"
             editorAttributes="WRONG_REFERENCES_ATTRIBUTES"
             suppressId="undefined"
-        implementationClass="dev.flikas.spring.boot.assistant.idea.plugin.inspection.KeyNotDefinedInspection"
+            implementationClass="dev.flikas.spring.boot.assistant.idea.plugin.inspection.KeyNotDefinedInspection"
     />
     <localInspection
         language="yaml"
