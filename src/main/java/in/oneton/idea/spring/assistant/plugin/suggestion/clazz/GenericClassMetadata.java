@@ -13,23 +13,13 @@ import org.apache.commons.collections4.trie.PatriciaTrie;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 import static com.intellij.util.containers.ContainerUtil.isEmpty;
 import static in.oneton.idea.spring.assistant.plugin.misc.GenericUtil.newListWithMembers;
-import static in.oneton.idea.spring.assistant.plugin.misc.PsiCustomUtil.getSanitisedPropertyToPsiMemberWrapper;
-import static in.oneton.idea.spring.assistant.plugin.misc.PsiCustomUtil.isValidType;
-import static in.oneton.idea.spring.assistant.plugin.misc.PsiCustomUtil.toValidPsiClass;
+import static in.oneton.idea.spring.assistant.plugin.misc.PsiCustomUtil.*;
 import static java.util.Collections.unmodifiableList;
-import static java.util.stream.Collectors.toCollection;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
+import static java.util.stream.Collectors.*;
 
 public class GenericClassMetadata extends ClassMetadata {
 
@@ -204,7 +194,8 @@ public class GenericClassMetadata extends ClassMetadata {
   @Override
   protected String doGetDocumentationForValue(Module module, String nodeNavigationPathDotDelimited,
       String originalValue) {
-    throw new IllegalAccessError("Method should never be called for a generic class");
+    // Can be called if the property has a value but child keys, which is incorrect.
+    return null;
   }
 
   @Override
