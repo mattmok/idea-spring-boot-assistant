@@ -22,6 +22,8 @@ to [Semantic Versioning](https://semver.org).
 ### Fixed
 - #25 - IllegalAccessError while request a document for value of a Property Group.
 
+- #31 - IllegalAccessError while request document for a misplaced property value.
+
 ### Security
 
 ## [0.17.0] - 2022-11-07
