@@ -20,6 +20,7 @@ to [Semantic Versioning](https://semver.org).
 ### Removed
 
 ### Fixed
+- #25 - IllegalAccessError while request a document for value of a Property Group.
 
 ### Security
 
