@@ -12,26 +12,13 @@ import in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNodeType;
 import in.oneton.idea.spring.assistant.plugin.suggestion.completion.FileType;
 import in.oneton.idea.spring.assistant.plugin.suggestion.metadata.json.SpringConfigurationMetadataGroup;
 import in.oneton.idea.spring.assistant.plugin.suggestion.metadata.json.SpringConfigurationMetadataProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.apache.commons.collections4.Trie;
 import org.apache.commons.collections4.trie.PatriciaTrie;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 import static in.oneton.idea.spring.assistant.plugin.misc.GenericUtil.newListWithMembers;
 import static in.oneton.idea.spring.assistant.plugin.misc.GenericUtil.newSingleElementSortedSet;
@@ -397,8 +384,8 @@ public class MetadataNonPropertySuggestionNode extends MetadataSuggestionNode {
       assert group != null;
       return group.getDocumentation(module, nodeNavigationPathDotDelimited);
     }
-    throw new RuntimeException(
-        "Documentation not supported for this element. Call supportsDocumentation() first");
+    throw new IllegalStateException(
+            "Documentation not supported for this element. Call supportsDocumentation() first");
   }
 
   @Nullable
@@ -406,14 +393,18 @@ public class MetadataNonPropertySuggestionNode extends MetadataSuggestionNode {
   public SortedSet<Suggestion> findValueSuggestionsForPrefix(Module module, FileType fileType,
       List<SuggestionNode> matchesRootTillMe, String prefix,
       @Nullable Set<String> siblingsToExclude) {
-    throw new IllegalAccessError("Should never be called");
+    throw new IllegalStateException("Should never be called");
   }
 
   @Nullable
   @Override
   public String getDocumentationForValue(Module module, String nodeNavigationPathDotDelimited,
       String originalValue) {
-    throw new IllegalAccessError("Should never be called");
+    if (isGroup()) {
+      // A group has documentation but do not have a value.
+      return null;
+    }
+    throw new IllegalStateException("Documentation not supported for this element. Call supportsDocumentation() first");
   }
 
   @Override
