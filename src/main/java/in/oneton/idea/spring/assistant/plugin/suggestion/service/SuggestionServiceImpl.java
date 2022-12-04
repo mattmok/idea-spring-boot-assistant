@@ -340,18 +340,27 @@ public class SuggestionServiceImpl implements SuggestionService {
       }
 
       String metadataFilePath = metadataContainerInfo.getFileUrl();
-      try (InputStream inputStream = metadataContainerInfo.getMetadataFile().getInputStream()) {
+      VirtualFile metadataFile = metadataContainerInfo.getMetadataFile();
+      if (metadataFile == null) continue;
+      try (InputStream inputStream = metadataFile.getInputStream()) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         // register custom mapper adapters
-        gsonBuilder.registerTypeAdapter(SpringConfigurationMetadataValueProviderType.class,
-            new SpringConfigurationMetadataValueProviderTypeDeserializer());
+        gsonBuilder.registerTypeAdapter(
+            SpringConfigurationMetadataValueProviderType.class,
+            new SpringConfigurationMetadataValueProviderTypeDeserializer()
+        );
         gsonBuilder.registerTypeAdapterFactory(new GsonPostProcessEnablingTypeFactory());
         SpringConfigurationMetadata springConfigurationMetadata = gsonBuilder
             .create()
-            .fromJson(new BufferedReader(new InputStreamReader(inputStream)), SpringConfigurationMetadata.class);
+            .fromJson(
+                new BufferedReader(new InputStreamReader(inputStream, metadataFile.getCharset())),
+                SpringConfigurationMetadata.class
+            );
         buildMetadataHierarchy(metadataContainerInfo, springConfigurationMetadata);
-        seenContainerPathToContainerInfo.put(metadataContainerInfo.getContainerArchiveOrFileRef(),
-            metadataContainerInfo);
+        seenContainerPathToContainerInfo.put(
+            metadataContainerInfo.getContainerArchiveOrFileRef(),
+            metadataContainerInfo
+        );
       } catch (IOException e) {
         log.warn("Exception encountered while processing metadata file: " + metadataFilePath, e);
         removeReferences(metadataContainerInfo);

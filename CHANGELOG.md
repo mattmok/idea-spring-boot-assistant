@@ -27,6 +27,7 @@ to [Semantic Versioning](https://semver.org).
 
 ### Fixed
 
+- #6 - Document has invalid characters if there is character out of ISO-8859-1 charset in the metadata file.
 - #23 - NullPointerException while open a project which have some invalid metadata.
 - #25 - IllegalAccessError while request a document for value of a Property Group.
 - #31 - IllegalAccessError while request document for a misplaced property value.
