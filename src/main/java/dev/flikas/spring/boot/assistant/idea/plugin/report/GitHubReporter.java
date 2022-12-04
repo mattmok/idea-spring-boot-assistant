@@ -13,7 +13,6 @@ import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.Consumer;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.utils.URIBuilder;
-import org.bouncycastle.util.Arrays;
 import org.gradle.internal.os.OperatingSystem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,8 +21,6 @@ import java.awt.*;
 import java.net.URISyntaxException;
 import java.util.Objects;
 import java.util.stream.Stream;
-
-import static java.util.function.Predicate.not;
 
 public class GitHubReporter extends ErrorReportSubmitter {
   @Override
@@ -98,14 +95,14 @@ public class GitHubReporter extends ErrorReportSubmitter {
               .filter(StringUtils::isNotBlank)
               .findAny()
               .orElseGet(() -> Stream
-                      .of(events)
-                      .map(IdeaLoggingEvent::getThrowableText)
-                      .filter(Objects::nonNull)
-                      .map(StringUtil::splitByLines)
-                      .filter(not(Arrays::isNullOrEmpty))
-                      .map(arr -> arr[0])
-                      .findAny()
-                      .orElse("")
+                  .of(events)
+                  .map(IdeaLoggingEvent::getThrowableText)
+                  .filter(Objects::nonNull)
+                  .map(StringUtil::splitByLines)
+                  .filter(arr -> arr.length > 0)
+                  .map(arr -> arr[0])
+                  .findAny()
+                  .orElse("")
               )));
       uriBuilder.addParameter("labels", "bug");
       BrowserUtil.browse(uriBuilder.build());
