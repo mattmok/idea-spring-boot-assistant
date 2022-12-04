@@ -20,9 +20,10 @@ to [Semantic Versioning](https://semver.org).
 ### Removed
 
 ### Fixed
-- #25 - IllegalAccessError while request a document for value of a Property Group.
 
+- #25 - IllegalAccessError while request a document for value of a Property Group.
 - #31 - IllegalAccessError while request document for a misplaced property value.
+- #43 - NullPointerException while reporting an empty error.
 
 ### Security
 
