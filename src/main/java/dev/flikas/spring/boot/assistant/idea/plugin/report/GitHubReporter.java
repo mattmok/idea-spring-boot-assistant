@@ -11,13 +11,19 @@ import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.util.NlsActions;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.Consumer;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.utils.URIBuilder;
+import org.bouncycastle.util.Arrays;
 import org.gradle.internal.os.OperatingSystem;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.net.URISyntaxException;
+import java.util.Objects;
+import java.util.stream.Stream;
+
+import static java.util.function.Predicate.not;
 
 public class GitHubReporter extends ErrorReportSubmitter {
   @Override
@@ -85,7 +91,22 @@ public class GitHubReporter extends ErrorReportSubmitter {
     try {
       URIBuilder uriBuilder = new URIBuilder("https://github.com/flikas/idea-spring-boot-assistant/issues/new");
       uriBuilder.addParameter("body", body.toString());
-      uriBuilder.addParameter("title", "[BUG]" + StringUtil.capitalize(events[0].getMessage()));
+      uriBuilder.addParameter("title", "[BUG]" + StringUtil.capitalize(Stream
+              .of(events)
+              .map(IdeaLoggingEvent::getMessage)
+              .filter(Objects::nonNull)
+              .filter(StringUtils::isNotBlank)
+              .findAny()
+              .orElseGet(() -> Stream
+                      .of(events)
+                      .map(IdeaLoggingEvent::getThrowableText)
+                      .filter(Objects::nonNull)
+                      .map(StringUtil::splitByLines)
+                      .filter(not(Arrays::isNullOrEmpty))
+                      .map(arr -> arr[0])
+                      .findAny()
+                      .orElse("")
+              )));
       uriBuilder.addParameter("labels", "bug");
       BrowserUtil.browse(uriBuilder.build());
     } catch (URISyntaxException e) {
