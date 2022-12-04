@@ -21,6 +21,7 @@ to [Semantic Versioning](https://semver.org).
 
 ### Fixed
 
+- #23 - NullPointerException while open a project which have some invalid metadata.
 - #25 - IllegalAccessError while request a document for value of a Property Group.
 - #31 - IllegalAccessError while request document for a misplaced property value.
 - #43 - NullPointerException while reporting an empty error.

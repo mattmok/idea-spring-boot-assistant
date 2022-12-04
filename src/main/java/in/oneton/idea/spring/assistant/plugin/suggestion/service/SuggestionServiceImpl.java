@@ -39,6 +39,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.concurrent.Future;
@@ -447,6 +448,9 @@ public class SuggestionServiceImpl implements SuggestionService {
       String containerArchiveOrFileRef) {
     List<SpringConfigurationMetadataProperty> properties =
         springConfigurationMetadata.getProperties();
+    // Remove unnamed property, perhaps happens on invalid user defined metadata files.
+    // TODO We should use bean validator to assure that the input data match the requirements, exclude invalid ones silently.
+    properties.removeIf(p -> Objects.isNull(p.getName()));
     properties.sort(comparing(SpringConfigurationMetadataProperty::getName));
     for (SpringConfigurationMetadataProperty property : properties) {
       String[] pathSegments = toSanitizedPathSegments(property.getName());
