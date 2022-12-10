@@ -31,7 +31,7 @@ dependencies {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     type.set("IC")
-    version.set("2022.2.3")
+    version.set("2022.3")
     sameSinceUntilBuild.set(false)
     plugins.set(listOf("properties", "yaml", "maven", "gradle", "com.intellij.java"))
 }
