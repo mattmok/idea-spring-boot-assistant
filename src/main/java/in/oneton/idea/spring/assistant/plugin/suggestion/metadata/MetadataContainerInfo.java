@@ -18,6 +18,8 @@ import static com.intellij.openapi.fileTypes.FileTypes.ARCHIVE;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Stream.of;
 
+//TODO refactor this to represent metadata file and module dependencies separately.
+//TODO exclude "jrt:" file urls (Java Runtime files shouldn't have metadata) to improve performance.
 @Getter
 @Builder
 @ToString
@@ -107,12 +109,12 @@ public class MetadataContainerInfo {
     if (metadataFile != null) {
       // since build might auto generate the metadata file in the project, its better to rely on
       builder.fileUrl(metadataFile.getUrl())
-          .containerArchiveOrFileRef(archive ? containerFile.getUrl() : metadataFile.getUrl())
-          .marker(
-              archive ? metadataFile.getModificationCount() : metadataFile.getModificationStamp());
+             .containerArchiveOrFileRef(archive ? containerFile.getUrl() : metadataFile.getUrl())
+             .marker(
+                 archive ? metadataFile.getModificationCount() : metadataFile.getModificationStamp());
     } else {
       builder.containerArchiveOrFileRef(containerFile.getUrl())
-          .marker(containerFile.getModificationCount());
+             .marker(containerFile.getModificationCount());
     }
     return builder.build();
   }
