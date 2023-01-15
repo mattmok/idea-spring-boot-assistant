@@ -27,6 +27,12 @@ to [Semantic Versioning](https://semver.org).
 
 ### Security
 
+## [0.17.2] - 2023-01-15
+
+### Fixed
+
+- #41 - Try to fix concurrent reindexing problems.
+
 ## [0.17.1] - 2022-12-04
 
 ### Fixed
