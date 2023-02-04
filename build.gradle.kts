@@ -9,11 +9,11 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_17
 }
 
 group = "dev.flikas"
-version = "203.1.0.0"
+version = "222.1.0.0"
 
 repositories {
     mavenCentral()
@@ -31,7 +31,7 @@ dependencies {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     type.set("IC")
-    version.set("2020.3")
+    version.set("2022.2")
     sameSinceUntilBuild.set(false)
     plugins.set(listOf("properties", "yaml", "maven", "gradle", "com.intellij.java"))
 }
@@ -42,8 +42,8 @@ changelog {
 
 tasks {
     patchPluginXml {
-        sinceBuild.set("203")
-        untilBuild.set("221.*")
+        sinceBuild.set("222")
+        untilBuild.set("")
         version.set(
                 project.version.toString().run {
                     val pieces = split('-')

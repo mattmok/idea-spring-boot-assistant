@@ -163,8 +163,7 @@ public class PsiCustomUtil {
     } else if (type instanceof PsiPrimitiveType) {
       SuggestionNodeType nodeType = getSuggestionNodeTypeForPrimitive(type);
       return nodeType != null ? nodeType : UNKNOWN_CLASS;
-    } else if (type instanceof PsiClassType) {
-      PsiClassType psiClassType = (PsiClassType) type;
+    } else if (type instanceof PsiClassType psiClassType) {
       SuggestionNodeType nodeType = getSuggestionNodeTypeForPrimitive(type);
       if (nodeType != null) {
         return nodeType;
@@ -328,8 +327,7 @@ public class PsiCustomUtil {
         type = (lowerBound != NULL ? lowerBound : ((PsiCapturedWildcardType) type).getUpperBound());
       }
 
-      if (type instanceof PsiClassType) {
-        PsiClassType classType = (PsiClassType) type;
+      if (type instanceof PsiClassType classType) {
         Collection<PsiType> typeParams =
                 classType.resolveGenerics().getSubstitutor().getSubstitutionMap().values();
         TObjectHashingStrategy<PsiClass> nameComparingHashingStrategy =
@@ -523,8 +521,7 @@ public class PsiCustomUtil {
     if (declaration instanceof PsiField) {
       return getFieldType((PsiField) declaration);
     }
-    if (declaration instanceof PsiMethod) {
-      final PsiMethod method = (PsiMethod) declaration;
+    if (declaration instanceof final PsiMethod method) {
       if (method.getParameterList().getParametersCount() != 0) {
         return getSetterArgumentType(method);
       }
