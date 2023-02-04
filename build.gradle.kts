@@ -9,11 +9,11 @@ plugins {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_1_8
 }
 
 group = "dev.flikas"
-version = "0.17.2"
+version = "193.1.0.0"
 
 repositories {
     mavenCentral()
@@ -31,7 +31,7 @@ dependencies {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     type.set("IC")
-    version.set("2022.3")
+    version.set("2019.3.2")
     sameSinceUntilBuild.set(false)
     plugins.set(listOf("properties", "yaml", "maven", "gradle", "com.intellij.java"))
 }
@@ -43,17 +43,17 @@ changelog {
 tasks {
     patchPluginXml {
         sinceBuild.set("193")
-        untilBuild.set("")
+        untilBuild.set("202.*")
         version.set(
-            project.version.toString().run {
-                val pieces = split('-')
-                if (pieces.size > 1) {
-                    //if this is not a release version, generate a sub version number from count of hours from 2021-10-01.
-                    pieces[0] + "." + (System.currentTimeMillis() / 1000 - 1633046400) / 60 / 60
-                } else {
-                    pieces[0]
+                project.version.toString().run {
+                    val pieces = split('-')
+                    if (pieces.size > 1) {
+                        //if this is not a release version, generate a sub version number from count of hours from 2021-10-01.
+                        pieces[0] + "." + (System.currentTimeMillis() / 1000 - 1633046400) / 60 / 60
+                    } else {
+                        pieces[0]
+                    }
                 }
-            }
         )
 
         // Extract the <!-- Plugin description --> section from README.md and provide for the plugin's manifest

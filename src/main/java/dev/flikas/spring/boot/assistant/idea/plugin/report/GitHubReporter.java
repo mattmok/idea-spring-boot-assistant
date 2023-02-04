@@ -8,14 +8,12 @@ import com.intellij.openapi.diagnostic.ErrorReportSubmitter;
 import com.intellij.openapi.diagnostic.IdeaLoggingEvent;
 import com.intellij.openapi.diagnostic.SubmittedReportInfo;
 import com.intellij.openapi.extensions.PluginId;
-import com.intellij.openapi.util.NlsActions;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.util.Consumer;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.utils.URIBuilder;
 import org.gradle.internal.os.OperatingSystem;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.net.URISyntaxException;
@@ -24,13 +22,13 @@ import java.util.stream.Stream;
 
 public class GitHubReporter extends ErrorReportSubmitter {
   @Override
-  public @NlsActions.ActionText @NotNull String getReportActionText() {
+  public @NotNull String getReportActionText() {
     return "Create Bug Report at GitHub";
   }
 
   @Override
-  public boolean submit(IdeaLoggingEvent @NotNull [] events, @Nullable String additionalInfo,
-      @NotNull Component parentComponent, @NotNull Consumer<? super SubmittedReportInfo> consumer) {
+  public boolean submit(IdeaLoggingEvent[] events, String additionalInfo,
+                        Component parentComponent, Consumer<SubmittedReportInfo> consumer) {
     if (events.length == 0) {
       return false;
     }

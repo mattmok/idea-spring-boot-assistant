@@ -5,11 +5,7 @@ import com.intellij.codeInspection.ProblemsHolder;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.progress.ProgressIndicatorProvider;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.PsiPrimitiveType;
-import com.intellij.psi.PsiType;
-import com.intellij.psi.PsiTypeVisitor;
+import com.intellij.psi.*;
 import dev.flikas.spring.boot.assistant.idea.plugin.misc.ServiceUtil;
 import dev.flikas.spring.boot.assistant.idea.plugin.suggestion.filetype.YamlPropertiesFileType;
 import in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNode;
@@ -83,7 +79,7 @@ public class InvalidValueInspection extends LocalInspectionTool {
           valueType = null;
         }
         if (valueType == null) return;
-        PsiPrimitiveType primitiveValueType = valueType.accept(new PsiTypeVisitor<>() {
+        PsiPrimitiveType primitiveValueType = valueType.accept(new PsiTypeVisitor<PsiPrimitiveType>() {
           @Override
           public PsiPrimitiveType visitPrimitiveType(@NotNull PsiPrimitiveType primitiveType) {
             return primitiveType;

@@ -7,21 +7,7 @@ import com.intellij.openapi.module.Module;
 import com.intellij.openapi.util.Key;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.psi.JavaPsiFacade;
-import com.intellij.psi.PsiAnnotation;
-import com.intellij.psi.PsiArrayType;
-import com.intellij.psi.PsiCapturedWildcardType;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiClassType;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiField;
-import com.intellij.psi.PsiMember;
-import com.intellij.psi.PsiMethod;
-import com.intellij.psi.PsiParameter;
-import com.intellij.psi.PsiPrimitiveType;
-import com.intellij.psi.PsiType;
-import com.intellij.psi.PsiTypeParameter;
-import com.intellij.psi.PsiWildcardType;
+import com.intellij.psi.*;
 import com.intellij.psi.javadoc.PsiDocComment;
 import com.intellij.psi.javadoc.PsiDocToken;
 import com.intellij.psi.util.CachedValue;
@@ -46,9 +32,7 @@ import static com.intellij.openapi.module.ModuleUtilCore.findModuleForFile;
 import static com.intellij.openapi.module.ModuleUtilCore.findModuleForPsiElement;
 import static com.intellij.openapi.roots.ModuleRootManager.getInstance;
 import static com.intellij.openapi.util.Key.create;
-import static com.intellij.psi.CommonClassNames.JAVA_LANG_ITERABLE;
-import static com.intellij.psi.CommonClassNames.JAVA_LANG_STRING;
-import static com.intellij.psi.CommonClassNames.JAVA_UTIL_MAP;
+import static com.intellij.psi.CommonClassNames.*;
 import static com.intellij.psi.JavaPsiFacade.getElementFactory;
 import static com.intellij.psi.PsiModifier.PUBLIC;
 import static com.intellij.psi.PsiModifier.STATIC;
@@ -56,9 +40,7 @@ import static com.intellij.psi.PsiType.NULL;
 import static com.intellij.psi.util.CachedValueProvider.Result.create;
 import static com.intellij.psi.util.CachedValuesManager.getCachedValue;
 import static com.intellij.psi.util.InheritanceUtil.isInheritor;
-import static com.intellij.psi.util.PropertyUtil.getPropertyName;
-import static com.intellij.psi.util.PropertyUtil.isSimplePropertyGetter;
-import static com.intellij.psi.util.PropertyUtil.isSimplePropertySetter;
+import static com.intellij.psi.util.PropertyUtil.*;
 import static com.intellij.psi.util.PsiModificationTracker.MODIFICATION_COUNT;
 import static com.intellij.psi.util.PsiTypesUtil.getClassType;
 import static com.intellij.psi.util.PsiTypesUtil.hasUnresolvedComponents;
@@ -148,7 +130,8 @@ public class PsiCustomUtil {
     } else if (type instanceof PsiPrimitiveType) {
       SuggestionNodeType nodeType = getSuggestionNodeTypeForPrimitive(type);
       return nodeType != null ? nodeType : UNKNOWN_CLASS;
-    } else if (type instanceof PsiClassType psiClassType) {
+    } else if (type instanceof PsiClassType) {
+      PsiClassType psiClassType = (PsiClassType) type;
       SuggestionNodeType nodeType = getSuggestionNodeTypeForPrimitive(type);
       if (nodeType != null) {
         return nodeType;
@@ -312,21 +295,22 @@ public class PsiCustomUtil {
         type = (lowerBound != NULL ? lowerBound : ((PsiCapturedWildcardType) type).getUpperBound());
       }
 
-      if (type instanceof PsiClassType classType) {
+      if (type instanceof PsiClassType) {
+        PsiClassType classType = (PsiClassType) type;
         Collection<PsiType> typeParams =
-            classType.resolveGenerics().getSubstitutor().getSubstitutionMap().values();
+                classType.resolveGenerics().getSubstitutor().getSubstitutionMap().values();
         TObjectHashingStrategy<PsiClass> nameComparingHashingStrategy =
-            new TObjectHashingStrategy<PsiClass>() {
-              @Override
-              public int computeHashCode(PsiClass psiClass) {
-                return requireNonNull(psiClass.getQualifiedName()).hashCode();
-              }
+                new TObjectHashingStrategy<PsiClass>() {
+                  @Override
+                  public int computeHashCode(PsiClass psiClass) {
+                    return requireNonNull(psiClass.getQualifiedName()).hashCode();
+                  }
 
-              @Override
-              public boolean equals(PsiClass psiClass, PsiClass other) {
-                return psiClass.hashCode() == other.hashCode();
-              }
-            };
+                  @Override
+                  public boolean equals(PsiClass psiClass, PsiClass other) {
+                    return psiClass.hashCode() == other.hashCode();
+                  }
+                };
         Set<PsiClass> dependencies = new THashSet<>(nameComparingHashingStrategy);
         dependencies.add(toValidPsiClass(classType));
         for (PsiType typeParam : typeParams) {
@@ -506,13 +490,14 @@ public class PsiCustomUtil {
     if (declaration instanceof PsiField) {
       return getFieldType((PsiField) declaration);
     }
-    if (declaration instanceof final PsiMethod method) {
+    if (declaration instanceof PsiMethod) {
+      final PsiMethod method = (PsiMethod) declaration;
       if (method.getParameterList().getParametersCount() != 0) {
         return getSetterArgumentType(method);
       }
       final String propertyName = getPropertyName(method);
       final PsiClass psiClass =
-          containingClass != null ? containingClass : method.getContainingClass();
+              containingClass != null ? containingClass : method.getContainingClass();
       if (propertyName != null && containingClass != null) {
         final PsiMethod setter = findInstancePropertySetter(psiClass, propertyName);
         if (setter != null) {
