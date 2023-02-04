@@ -5,27 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com), and this project adheres
 to [Semantic Versioning](https://semver.org).
 
-## [Unreleased]
-
-### Added
-
-- Support
-  for [value providers](https://docs.spring.io/spring-boot/docs/current/reference/html/configuration-metadata.html#configuration-metadata.manual-hints.value-providers)
-- Better setter navigate: from configuration property source to configuration file.
-- Support `*.properties` files.
-- Support `@PropertySource` annotation.
-- Support `@Value` annotation.
-- Support `@ConditionalOnProperty` annotation.
-
-### Changed
-
-### Deprecated
-
-### Removed
+## [203.17.2] - 2023-02-04
 
 ### Fixed
 
-### Security
+- Compatibility with IntelliJ IDEA 2020.3 - 2022.1.*
 
 ## [0.17.2] - 2023-01-15
 
