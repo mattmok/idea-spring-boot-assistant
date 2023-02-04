@@ -27,19 +27,16 @@ jobs:
           server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
           settings-path: ${{ github.workspace }} # location for the settings.xml file
           cache: gradle
-
-    - name: Build with Gradle
-      run: gradle buildPlugin
-    
-    - name: Run Plugin Verifier
-      run: gradle runPluginVerifier
-
-    # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
-    # the publishing section of your build.gradle
-    - name: Publish to JetBrains Marketplace
-      run: gradle publishPlugin
-      env:
-        PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
-        PRIVATE_KEY_PASSWORD: ${{ secrets.PRIVATE_KEY_PASSWORD }}
-        PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-        CERTIFICATE_CHAIN: ${{ secrets.CERTIFICATE_CHAIN }}
+      - name: Build with Gradle
+        run: gradle buildPlugin
+      - name: Run Plugin Verifier
+        run: gradle runPluginVerifier
+      # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
+      # the publishing section of your build.gradle
+      - name: Publish to JetBrains Marketplace
+        run: gradle publishPlugin
+        env:
+          PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
+          PRIVATE_KEY_PASSWORD: ${{ secrets.PRIVATE_KEY_PASSWORD }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+          CERTIFICATE_CHAIN: ${{ secrets.CERTIFICATE_CHAIN }}
