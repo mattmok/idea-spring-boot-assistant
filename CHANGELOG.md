@@ -27,6 +27,10 @@ to [Semantic Versioning](https://semver.org).
 
 ### Security
 
+## [222.17.2] - 2023-02-04
+
+- Minimum required IDEA version is 2022.2
+
 ## [0.17.2] - 2023-01-15
 
 ### Fixed

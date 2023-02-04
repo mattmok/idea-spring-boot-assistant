@@ -13,7 +13,7 @@ java {
 }
 
 group = "dev.flikas"
-version = "222.1.0.0"
+version = "222.17.2"
 
 repositories {
     mavenCentral()
