@@ -65,7 +65,22 @@ import static com.intellij.psi.util.PsiTypesUtil.hasUnresolvedComponents;
 import static com.intellij.psi.util.PsiUtil.extractIterableTypeParameter;
 import static com.intellij.psi.util.PsiUtil.resolveGenericsClassInType;
 import static in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNode.sanitise;
-import static in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNodeType.*;
+import static in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNodeType.ARRAY;
+import static in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNodeType.BOOLEAN;
+import static in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNodeType.BYTE;
+import static in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNodeType.CHAR;
+import static in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNodeType.DOUBLE;
+import static in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNodeType.ENUM;
+import static in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNodeType.FLOAT;
+import static in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNodeType.INT;
+import static in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNodeType.ITERABLE;
+import static in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNodeType.KNOWN_CLASS;
+import static in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNodeType.LONG;
+import static in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNodeType.MAP;
+import static in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNodeType.SHORT;
+import static in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNodeType.STRING;
+import static in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNodeType.UNDEFINED;
+import static in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNodeType.UNKNOWN_CLASS;
 import static java.util.Objects.requireNonNull;
 
 @UtilityClass
@@ -148,7 +163,8 @@ public class PsiCustomUtil {
     } else if (type instanceof PsiPrimitiveType) {
       SuggestionNodeType nodeType = getSuggestionNodeTypeForPrimitive(type);
       return nodeType != null ? nodeType : UNKNOWN_CLASS;
-    } else if (type instanceof PsiClassType psiClassType) {
+    } else if (type instanceof PsiClassType) {
+      PsiClassType psiClassType = (PsiClassType) type;
       SuggestionNodeType nodeType = getSuggestionNodeTypeForPrimitive(type);
       if (nodeType != null) {
         return nodeType;
@@ -312,21 +328,22 @@ public class PsiCustomUtil {
         type = (lowerBound != NULL ? lowerBound : ((PsiCapturedWildcardType) type).getUpperBound());
       }
 
-      if (type instanceof PsiClassType classType) {
+      if (type instanceof PsiClassType) {
+        PsiClassType classType = (PsiClassType) type;
         Collection<PsiType> typeParams =
-            classType.resolveGenerics().getSubstitutor().getSubstitutionMap().values();
+                classType.resolveGenerics().getSubstitutor().getSubstitutionMap().values();
         TObjectHashingStrategy<PsiClass> nameComparingHashingStrategy =
-            new TObjectHashingStrategy<PsiClass>() {
-              @Override
-              public int computeHashCode(PsiClass psiClass) {
-                return requireNonNull(psiClass.getQualifiedName()).hashCode();
-              }
+                new TObjectHashingStrategy<PsiClass>() {
+                  @Override
+                  public int computeHashCode(PsiClass psiClass) {
+                    return requireNonNull(psiClass.getQualifiedName()).hashCode();
+                  }
 
-              @Override
-              public boolean equals(PsiClass psiClass, PsiClass other) {
-                return psiClass.hashCode() == other.hashCode();
-              }
-            };
+                  @Override
+                  public boolean equals(PsiClass psiClass, PsiClass other) {
+                    return psiClass.hashCode() == other.hashCode();
+                  }
+                };
         Set<PsiClass> dependencies = new THashSet<>(nameComparingHashingStrategy);
         dependencies.add(toValidPsiClass(classType));
         for (PsiType typeParam : typeParams) {
@@ -506,13 +523,14 @@ public class PsiCustomUtil {
     if (declaration instanceof PsiField) {
       return getFieldType((PsiField) declaration);
     }
-    if (declaration instanceof final PsiMethod method) {
+    if (declaration instanceof PsiMethod) {
+      final PsiMethod method = (PsiMethod) declaration;
       if (method.getParameterList().getParametersCount() != 0) {
         return getSetterArgumentType(method);
       }
       final String propertyName = getPropertyName(method);
       final PsiClass psiClass =
-          containingClass != null ? containingClass : method.getContainingClass();
+              containingClass != null ? containingClass : method.getContainingClass();
       if (propertyName != null && containingClass != null) {
         final PsiMethod setter = findInstancePropertySetter(psiClass, propertyName);
         if (setter != null) {
