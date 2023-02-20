@@ -6,14 +6,16 @@ plugins {
     id("org.jetbrains.intellij")
     id("org.jetbrains.changelog")
     id("io.freefair.lombok")
+    id("org.springframework.boot")
 }
+apply(plugin = "io.spring.dependency-management")
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
 }
 
 group = "dev.flikas"
-version = "222.17.2"
+version = "222.18.0-EAP"
 
 repositories {
     mavenCentral()
@@ -22,6 +24,7 @@ repositories {
 dependencies {
     implementation("org.apache.commons", "commons-collections4", "4.4")
     implementation("com.miguelfonseca.completely", "completely-core", "0.9.0")
+    implementation("org.springframework.boot", "spring-boot")
 
     testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.8.1")
     testImplementation("org.mockito", "mockito-core", "2.12.0")
@@ -80,7 +83,6 @@ tasks {
     }
 
     signPlugin {
-        cliVersion.set("0.1.8")
         val chain = rootProject.file("chain.crt")
         if (chain.exists()) {
             certificateChainFile.set(chain)

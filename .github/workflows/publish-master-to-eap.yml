@@ -23,14 +23,17 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '17'
-          distribution: 'adopt'
+          distribution: 'corretto'
           server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
           settings-path: ${{ github.workspace }} # location for the settings.xml file
           cache: gradle
+
       - name: Build with Gradle
         run: gradle buildPlugin
+
       - name: Run Plugin Verifier
         run: gradle runPluginVerifier
+
       # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
       # the publishing section of your build.gradle
       - name: Publish to JetBrains Marketplace

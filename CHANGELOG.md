@@ -16,6 +16,7 @@ to [Semantic Versioning](https://semver.org).
 - Support `@PropertySource` annotation.
 - Support `@Value` annotation.
 - Support `@ConditionalOnProperty` annotation.
+- Inspection: add `spring-boot-configuration-processor`
 
 ### Changed
 
