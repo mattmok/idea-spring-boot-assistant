@@ -26,9 +26,13 @@ dependencies {
     implementation("com.miguelfonseca.completely", "completely-core", "0.9.0")
     implementation("org.springframework.boot", "spring-boot")
 
-    testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.8.1")
+    testImplementation(platform("org.junit:junit-bom:5.9.2"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.mockito", "mockito-core", "2.12.0")
-    testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.8.1")
+
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher") {
+        because("Only needed to run tests in a version of IntelliJ IDEA that bundles older versions")
+    }
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
@@ -104,5 +108,9 @@ tasks {
         }
         token.set(System.getenv("PUBLISH_TOKEN"))
         channels.set(listOf(version.toString().split('-').getOrElse(1) { "default" }.split('.').first()))
+    }
+
+    test {
+        useJUnitPlatform()
     }
 }
