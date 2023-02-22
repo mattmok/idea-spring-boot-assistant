@@ -14,6 +14,12 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
 }
 
+idea {
+    module {
+        isDownloadJavadoc = true
+    }
+}
+
 group = "dev.flikas"
 version = "222.18.0-EAP"
 
