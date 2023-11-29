@@ -93,7 +93,7 @@ tasks {
                     subList(indexOf(start) + 1, indexOf(end))
                 }.joinToString(
                         separator = "\n",
-                        postfix = "\nProject [document](https://github.com/flikas/idea-spring-boot-assistant/#readme)\n"
+                        postfix = "\nProject [document](https://github.com/mattmok/idea-spring-boot-assistant/#readme)\n"
                 ).run { markdownToHTML(this) }
         )
 
