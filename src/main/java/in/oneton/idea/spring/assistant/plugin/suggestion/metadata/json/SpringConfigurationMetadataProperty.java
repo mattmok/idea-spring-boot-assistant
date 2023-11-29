@@ -2,7 +2,6 @@ package in.oneton.idea.spring.assistant.plugin.suggestion.metadata.json;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.intellij.openapi.module.Module;
 import com.intellij.psi.PsiType;
 import in.oneton.idea.spring.assistant.plugin.misc.GenericUtil;
 import in.oneton.idea.spring.assistant.plugin.misc.PsiCustomUtil;
@@ -28,7 +27,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Stream;
 
-import static com.intellij.codeInsight.documentation.DocumentationManager.createHyperlink;
+import static com.intellij.codeInsight.documentation.DocumentationManagerUtil.createHyperlink;
 import static com.intellij.lang.documentation.DocumentationMarkup.CONTENT_END;
 import static com.intellij.lang.documentation.DocumentationMarkup.CONTENT_START;
 import static com.intellij.lang.documentation.DocumentationMarkup.DEFINITION_END;

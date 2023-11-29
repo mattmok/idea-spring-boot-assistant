@@ -1,6 +1,5 @@
 package in.oneton.idea.spring.assistant.plugin.suggestion.clazz;
 
-import com.intellij.openapi.module.Module;
 import com.intellij.psi.PsiType;
 import in.oneton.idea.spring.assistant.plugin.suggestion.Suggestion;
 import in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNode;
@@ -15,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 
-import static com.intellij.codeInsight.documentation.DocumentationManager.createHyperlink;
+import static com.intellij.codeInsight.documentation.DocumentationManagerUtil.createHyperlink;
 import static com.intellij.openapi.util.text.StringUtil.isEmpty;
 import static com.intellij.psi.CommonClassNames.JAVA_LANG_STRING;
 import static in.oneton.idea.spring.assistant.plugin.misc.GenericUtil.dotDelimitedOriginalNames;

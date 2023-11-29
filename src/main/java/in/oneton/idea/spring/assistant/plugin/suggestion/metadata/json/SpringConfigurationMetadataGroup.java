@@ -1,11 +1,12 @@
 package in.oneton.idea.spring.assistant.plugin.suggestion.metadata.json;
 
 import com.google.gson.annotations.SerializedName;
-import com.intellij.codeInsight.documentation.DocumentationManager;
-import com.intellij.openapi.module.Module;
+import com.intellij.codeInsight.documentation.DocumentationManagerUtil;
+import com.intellij.lang.documentation.DocumentationProvider;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiType;
 import com.intellij.psi.util.PsiTypesUtil;
+import com.tiamaes.cloud.assistant.idea.plugin.DocumentationManager;
 import in.oneton.idea.spring.assistant.plugin.misc.GenericUtil;
 import in.oneton.idea.spring.assistant.plugin.suggestion.Suggestion;
 import in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNode;
@@ -73,11 +74,12 @@ public class SpringConfigurationMetadataGroup {
       if (delegate != null) {
         @Nullable PsiClass groupType = PsiTypesUtil.getPsiClass(delegate.getPsiType(module));
         if (groupType != null) {
-          doc.append(DocumentationManager.getProviderFromElement(groupType).generateDoc(groupType, null));
+          DocumentationProvider documentationProvider = DocumentationManager.getProviderFromElement(groupType);
+          doc.append(documentationProvider.generateDoc(groupType, null));
         }
       }
     }
-    if (doc.length() == 0) {
+    if (doc.isEmpty()) {
       // Otherwise, format for the documentation is as follows
       /*
        * {@link com.acme.Generic}<{@link com.acme.Class1}, {@link com.acme.Class2}>
@@ -112,7 +114,7 @@ public class SpringConfigurationMetadataGroup {
       // lets show declaration point only if does not match the type
       if (!sourceTypeInJavadocFormat.equals(removeGenerics(className))) {
         StringBuilder buffer = new StringBuilder();
-        DocumentationManager.createHyperlink(
+        DocumentationManagerUtil.createHyperlink(
             buffer,
             methodForDocumentationNavigation(sourceTypeInJavadocFormat),
             sourceTypeInJavadocFormat,

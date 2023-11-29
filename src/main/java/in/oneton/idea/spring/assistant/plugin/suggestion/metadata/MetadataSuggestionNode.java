@@ -1,6 +1,5 @@
 package in.oneton.idea.spring.assistant.plugin.suggestion.metadata;
 
-import com.intellij.openapi.module.Module;
 import in.oneton.idea.spring.assistant.plugin.suggestion.Suggestion;
 import in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNode;
 import in.oneton.idea.spring.assistant.plugin.suggestion.completion.FileType;
@@ -12,8 +11,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.Stack;
-
-import static java.util.stream.Collectors.joining;
 
 public abstract class MetadataSuggestionNode implements SuggestionNode {
 
@@ -75,6 +72,7 @@ public abstract class MetadataSuggestionNode implements SuggestionNode {
 
   protected abstract String getName();
 
+  @Override
   @NotNull
   public abstract String getOriginalName();
 
@@ -112,7 +110,7 @@ public abstract class MetadataSuggestionNode implements SuggestionNode {
       leafTillRoot.push(current.getOriginalName());
       current = current.getParent();
     } while (current != null);
-    return leafTillRoot.stream().collect(joining("."));
+    return String.join(".", leafTillRoot);
   }
 
   @Override

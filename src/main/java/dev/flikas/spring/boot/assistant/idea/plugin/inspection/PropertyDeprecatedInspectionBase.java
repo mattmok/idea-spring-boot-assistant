@@ -2,7 +2,6 @@ package dev.flikas.spring.boot.assistant.idea.plugin.inspection;
 
 import com.intellij.codeInspection.LocalInspectionTool;
 import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.progress.ProgressIndicatorProvider;
 import com.intellij.psi.PsiElement;
@@ -15,6 +14,7 @@ import in.oneton.idea.spring.assistant.plugin.suggestion.metadata.MetadataProper
 import in.oneton.idea.spring.assistant.plugin.suggestion.metadata.json.SpringConfigurationMetadataDeprecation;
 import in.oneton.idea.spring.assistant.plugin.suggestion.metadata.json.SpringConfigurationMetadataProperty;
 import in.oneton.idea.spring.assistant.plugin.suggestion.service.SuggestionService;
+import org.apache.commons.collections4.CollectionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.yaml.psi.YAMLKeyValue;
 import org.jetbrains.yaml.psi.YamlPsiElementVisitor;
@@ -22,7 +22,6 @@ import org.jetbrains.yaml.psi.YamlPsiElementVisitor;
 import java.util.ArrayList;
 import java.util.List;
 
-import static in.oneton.idea.spring.assistant.plugin.misc.GenericUtil.truncateIdeaDummyIdentifier;
 import static java.util.Objects.requireNonNull;
 
 public abstract class PropertyDeprecatedInspectionBase extends LocalInspectionTool {
@@ -52,7 +51,7 @@ public abstract class PropertyDeprecatedInspectionBase extends LocalInspectionTo
           context = requireNonNull(context).getParent();
         } while (context != null);
         List<SuggestionNode> matchedNodesFromRootTillLeaf = service.findMatchedNodesRootTillEnd(ancestralKeys);
-        if (matchedNodesFromRootTillLeaf == null || matchedNodesFromRootTillLeaf.isEmpty()) {
+        if (CollectionUtils.isEmpty(matchedNodesFromRootTillLeaf)) {
           return;
         }
         SuggestionNode node = matchedNodesFromRootTillLeaf.get(matchedNodesFromRootTillLeaf.size() - 1);
@@ -61,7 +60,9 @@ public abstract class PropertyDeprecatedInspectionBase extends LocalInspectionTo
         }
         if (node instanceof MetadataPropertySuggestionNode) {
           SpringConfigurationMetadataProperty property = ((MetadataPropertySuggestionNode) node).getProperty();
-          if (property == null) return;
+          if (property == null) {
+              return;
+          }
           SpringConfigurationMetadataDeprecation deprecation = property.getDeprecation();
           if (deprecation != null) {
             foundDeprecatedKey(keyValue, property, deprecation, holder, isOnTheFly);

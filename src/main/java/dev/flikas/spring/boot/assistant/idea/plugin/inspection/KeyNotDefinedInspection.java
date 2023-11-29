@@ -2,7 +2,6 @@ package dev.flikas.spring.boot.assistant.idea.plugin.inspection;
 
 import com.intellij.codeInspection.LocalInspectionTool;
 import com.intellij.codeInspection.ProblemsHolder;
-import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.progress.ProgressIndicatorProvider;
 import com.intellij.psi.PsiElement;
@@ -19,43 +18,45 @@ import org.jetbrains.yaml.psi.YamlPsiElementVisitor;
 import java.util.ArrayList;
 import java.util.List;
 
-import static in.oneton.idea.spring.assistant.plugin.misc.GenericUtil.truncateIdeaDummyIdentifier;
 import static java.util.Objects.requireNonNull;
 
 public class KeyNotDefinedInspection extends LocalInspectionTool {
-  @Override
-  public @NotNull PsiElementVisitor buildVisitor(@NotNull ProblemsHolder holder, boolean isOnTheFly) {
-    SuggestionService service = ServiceUtil.getServiceFromEligibleFile(
-        holder.getFile(),
-        YamlPropertiesFileType.INSTANCE,
-        SuggestionService.class
-    );
-    if (service == null) {
-      return PsiElementVisitor.EMPTY_VISITOR;
-    }
-    Module module = ModuleUtil.findModuleForFile(holder.getFile());
-    assert module != null;
-    return new YamlPsiElementVisitor() {
-      @Override
-      public void visitKeyValue(@NotNull YAMLKeyValue keyValue) {
-        ProgressIndicatorProvider.checkCanceled();
-        List<String> ancestralKeys = new ArrayList<>();
-        PsiElement context = keyValue;
-        do {
-          if (context instanceof YAMLKeyValue) {
-            ancestralKeys.add(0, truncateIdeaDummyIdentifier(((YAMLKeyValue) context).getKeyText()));
-          }
-          context = requireNonNull(context).getParent();
-        } while (context != null);
-        List<SuggestionNode> matchedNodesFromRootTillLeaf = service.findMatchedNodesRootTillEnd(ancestralKeys);
-        if (matchedNodesFromRootTillLeaf == null) {
-          assert keyValue.getKey() != null;
-          holder.registerProblem(
-              keyValue.getKey(),
-              YAMLBundle.message("YamlUnknownKeysInspectionBase.unknown.key", keyValue.getKeyText())
-          );
+
+    @Override
+    @SuppressWarnings("AnonymousInnerClassMayBeStatic")
+    public @NotNull PsiElementVisitor buildVisitor(@NotNull ProblemsHolder holder, boolean isOnTheFly) {
+        SuggestionService service = ServiceUtil.getServiceFromEligibleFile(
+                holder.getFile(),
+                YamlPropertiesFileType.INSTANCE,
+                SuggestionService.class
+        );
+        if (service == null) {
+            return PsiElementVisitor.EMPTY_VISITOR;
         }
-      }
-    };
-  }
+        Module module = ModuleUtil.findModuleForFile(holder.getFile());
+        assert module != null;
+        return new YamlPsiElementVisitor() {
+            @Override
+            public void visitKeyValue(@NotNull YAMLKeyValue keyValue) {
+                ProgressIndicatorProvider.checkCanceled();
+                List<String> ancestralKeys = new ArrayList<>();
+                PsiElement context = keyValue;
+                do {
+                    if (context instanceof YAMLKeyValue) {
+                        ancestralKeys.add(0, truncateIdeaDummyIdentifier(((YAMLKeyValue) context).getKeyText()));
+                    }
+                    context = requireNonNull(context).getParent();
+                } while (context != null);
+
+                List<SuggestionNode> matchedNodesFromRootTillLeaf = service.findMatchedNodesRootTillEnd(ancestralKeys);
+                if (matchedNodesFromRootTillLeaf == null) {
+                    assert keyValue.getKey() != null;
+                    holder.registerProblem(
+                            keyValue.getKey(),
+                            YAMLBundle.message("YamlUnknownKeysInspectionBase.unknown.key", keyValue.getKeyText())
+                    );
+                }
+            }
+        };
+    }
 }
