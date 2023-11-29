@@ -12,28 +12,48 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
 }
 
-group = "dev.flikas"
-version = "222.17.2"
+group = "com.tiamaes.cloud.springbootassistant"
+version = "1.0.0"
 
 repositories {
+    mavenLocal()
+    maven {
+        isAllowInsecureProtocol = true
+        url = uri("http://cloud.tiamaes.com:6001/nexus/repository/public/")
+        credentials {
+            findProperty("ossrhUsername")?.let {
+                username = it as String
+            }
+            findProperty("ossrhPassword")?.let {
+                password = it as String
+            }
+        }
+    }
     mavenCentral()
 }
 
 dependencies {
-    implementation("org.apache.commons", "commons-collections4", "4.4")
-    implementation("com.miguelfonseca.completely", "completely-core", "0.9.0")
+    implementation("org.apache.commons:commons-collections4:4.4")
+    implementation("com.miguelfonseca.completely:completely-core:0.9.0")
+    implementation("com.fasterxml.jackson.core:jackson-core:2.15.2")
 
-    testImplementation("org.junit.jupiter", "junit-jupiter-api", "5.8.1")
-    testImplementation("org.mockito", "mockito-core", "2.12.0")
-    testRuntimeOnly("org.junit.jupiter", "junit-jupiter-engine", "5.8.1")
+    testImplementation("org.mockito:mockito-core:5.2.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     type.set("IC")
-    version.set("2022.2")
+    version.set("2023.2")
     sameSinceUntilBuild.set(false)
+    updateSinceUntilBuild.set(false)
+    pluginName.set("Tiamaes-Spring-Boot-Assistant")
     plugins.set(listOf("properties", "yaml", "maven", "gradle", "com.intellij.java"))
+    jreRepository.set("https://intellij-repository.tiamaes.com/intellij-jbr")
+    tasks.runIde.configure {
+        jbrVersion.set("17.0.9b1087.7")
+    }
 }
 
 changelog {
@@ -41,9 +61,14 @@ changelog {
 }
 
 tasks {
+    downloadZipSigner {
+        cliPath.set(providers.gradleProperty("intellijMarketSignerPath"))
+        cli.set(file(cliPath))
+    }
+
     patchPluginXml {
-        sinceBuild.set("222")
-        untilBuild.set("")
+        sinceBuild.set("232.2")
+        untilBuild.set("232.*")
         version.set(
                 project.version.toString().run {
                     val pieces = split('-')
@@ -58,18 +83,18 @@ tasks {
 
         // Extract the <!-- Plugin description --> section from README.md and provide for the plugin's manifest
         pluginDescription.set(
-            projectDir.resolve("README.md").readText().lines().run {
-                val start = "<!-- Plugin description -->"
-                val end = "<!-- Plugin description end -->"
+                projectDir.resolve("README.md").readText().lines().run {
+                    val start = "<!-- Plugin description -->"
+                    val end = "<!-- Plugin description end -->"
 
-                if (!containsAll(listOf(start, end))) {
-                    throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
-                }
-                subList(indexOf(start) + 1, indexOf(end))
-            }.joinToString(
-                separator = "\n",
-                postfix = "\nProject [document](https://github.com/flikas/idea-spring-boot-assistant/#readme)\n"
-            ).run { markdownToHTML(this) }
+                    if (!containsAll(listOf(start, end))) {
+                        throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
+                    }
+                    subList(indexOf(start) + 1, indexOf(end))
+                }.joinToString(
+                        separator = "\n",
+                        postfix = "\nProject [document](https://github.com/flikas/idea-spring-boot-assistant/#readme)\n"
+                ).run { markdownToHTML(this) }
         )
 
         changeNotes.set(provider {
@@ -79,28 +104,18 @@ tasks {
         })
     }
 
+    // See more: https://plugins.jetbrains.com/docs/intellij/plugin-signing.html#signing-methods
     signPlugin {
-        cliVersion.set("0.1.8")
-        val chain = rootProject.file("chain.crt")
-        if (chain.exists()) {
-            certificateChainFile.set(chain)
-        } else {
-            certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
-        }
-        val private = rootProject.file("private.pem")
-        if (private.exists()) {
-            privateKeyFile.set(rootProject.file("private.pem"))
-        } else {
-            privateKey.set(System.getenv("PRIVATE_KEY"))
-        }
-        password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
+        certificateChainFile.set(file(providers.gradleProperty("intellijMarketSignerChain").get()))
+        privateKeyFile.set(file(providers.gradleProperty("intellijMarketSignerPrivate").get()))
+        password.set(providers.gradleProperty("intellijMarketSignerPrivatePassword").get())
     }
 
     publishPlugin {
         if (!version.toString().contains('-')) {
             dependsOn("patchChangelog")
         }
-        token.set(System.getenv("PUBLISH_TOKEN"))
+        token.set(findProperty("intellijPublishToken") as String)
         channels.set(listOf(version.toString().split('-').getOrElse(1) { "default" }.split('.').first()))
     }
 }

@@ -1,14 +1,14 @@
 <!-- `url` specifies the URL of the plugin homepage (can be opened from "Plugins" settings dialog) -->
-<idea-plugin url="https://github.com/flikas/intellij-spring-assistant">
+<idea-plugin url="https://github.com/mattmok/idea-spring-boot-assistant">
 
   <!-- Plugin name. It should be short and descriptive and in Title Case.
        Displayed in the "Plugins" settings dialog and the plugin repository Web interface. -->
-  <name>Spring Boot Assistant</name>
+  <name>Tiamaes Spring Boot Assistant</name>
 
   <!-- Unique identifier of the plugin. It should be FQN.
        It cannot be changed between the plugin versions.
        If not specified, <name> will be used (not recommended). -->
-  <id>dev.flikas.idea.spring.boot.assistant.plugin</id>
+  <id>com.tiamaes.cloud.spring.boot.assistant</id>
 
   <!-- Description of the plugin.
        Should be short and to the point.
@@ -43,7 +43,7 @@
        The optional "url" attribute specifies the URL of the vendor homepage.
        The optional "email" attribute specifies the e-mail address of the vendor.
        Displayed in the "Plugins" settings dialog and the plugin repository Web interface. -->
-  <vendor email="flikas@outlook.com">PENG FEI</vendor>
+  <vendor email="chenlili@tiamaes.com">Tiamaes</vendor>
 
   <!-- Mandatory dependencies on plugins or modules.
        The FQN module names in <depends> elements are used to determine IDE compatibility for the plugin.
@@ -124,7 +124,7 @@
 
     <localInspection
             language="yaml"
-            groupPath="Spring Boot"
+            groupPath="Spring boot"
             groupName="Configuration"
             displayName="Undefined key"
             enabledByDefault="true"
@@ -135,7 +135,7 @@
     />
     <localInspection
         language="yaml"
-        groupPath="Spring Boot"
+        groupPath="Spring boot"
         groupName="Configuration"
         displayName="Invalid value"
         enabledByDefault="true"
@@ -144,7 +144,7 @@
         implementationClass="dev.flikas.spring.boot.assistant.idea.plugin.inspection.InvalidValueInspection"/>
     <localInspection
         language="yaml"
-        groupPath="Spring Boot"
+        groupPath="Spring boot"
         groupName="Configuration"
         displayName="Property removed"
         enabledByDefault="true"
@@ -153,7 +153,7 @@
         implementationClass="dev.flikas.spring.boot.assistant.idea.plugin.inspection.PropertyRemovedInspection"/>
     <localInspection
         language="yaml"
-        groupPath="Spring Boot"
+        groupPath="Spring boot"
         groupName="Configuration"
         displayName="Property deprecated"
         enabledByDefault="true"

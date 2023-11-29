@@ -25,9 +25,13 @@ This plugin adds auto-completion support for Spring Boot configuration files (ap
 4. Quick documentation for groups & properties (not all groups & properties will have documentation, depends on whether
    the original author specified documentation or not for any given element).
 
+5. When the configuration property type is Map, no error will be prompted anymore.
+
+6. Fixed some outdated APIs.
+
 ### Bug report:
 
-Please create an issue at [GitHub](https://github.com/flikas/idea-spring-boot-assistant/issues).
+Please create an issue at [GitHub](https://github.com/mattmok/idea-spring-boot-assistant/issues).
 
 <!-- Plugin description end -->
 
@@ -90,7 +94,7 @@ For this to work, you need to ensure the following steps are followed for your p
    to `File | Settings | Build, Execution, Deployment | Build Tools | Gradle | Runner => Delegate IDE build/run actions to gradle`
    & restart the IDE. This will ensure that gradle plugin generates metadata & Intellij is pointing to it
 
-> If you want to look at a sample project, look inside [samples](samples/) directory where the above setup is done.
+> If you want to look at a sample project, look inside [samples](samples) directory where the above setup is done.
 > These samples allow properties from `@ConfigurationProperties` to be shown as suggestions
 
 **IMPORTANT**
@@ -106,7 +110,7 @@ For this to work, you need to ensure the following steps are followed for your p
 
 ## Support
 
-For report bugs, or request a new feature, use [Issues](https://github.com/flikas/idea-spring-boot-assistant/issues).
+For report bugs, or request a new feature, use [Issues](https://github.com/mattmok/idea-spring-boot-assistant/issues).
 
 ## Changelog
 
@@ -119,5 +123,4 @@ the [MIT License](http://opensource.org/licenses/MIT).
 
 ## About
 
-This project is based on [Spring Assistant - IntelliJ Plugin](https://github.com/1tontech/intellij-spring-assistant),
-thanks to the excellent work by [@1tontech](https://twitter.com/1tontech).
+This project is based on [Spring Assistant - IntelliJ Plugin](https://github.com/flikas/idea-spring-boot-assistant),thanks to the excellent work by [@flikas](https://github.com/flikas)
