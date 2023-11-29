@@ -15,5 +15,24 @@ to [Semantic Versioning](https://semver.org).
 ### Removed
 
 ### Fixed
+- Fixed some outdated APIs
 
 ### Security
+
+## [1.0.0] - 2023-11-29
+### Added
+- When the configuration property type is Map, no error will be prompted anymore
+
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+- Fixed some outdated APIs
+
+
+### Security
+
