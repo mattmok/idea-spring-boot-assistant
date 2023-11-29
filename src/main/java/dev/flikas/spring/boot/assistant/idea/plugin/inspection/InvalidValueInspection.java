@@ -29,6 +29,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static in.oneton.idea.spring.assistant.plugin.misc.GenericUtil.truncateIdeaDummyIdentifier;
 import static java.util.Objects.requireNonNull;
 
 public class InvalidValueInspection extends LocalInspectionTool {
@@ -42,7 +43,8 @@ public class InvalidValueInspection extends LocalInspectionTool {
         if (service == null) {
             return PsiElementVisitor.EMPTY_VISITOR;
         }
-        Module module = ModuleUtil.findModuleForFile(holder.getFile());
+
+        com.intellij.openapi.module.Module module = ModuleUtil.findModuleForFile(holder.getFile());
         assert module != null;
         return new YamlPsiElementVisitor() {
             @Override

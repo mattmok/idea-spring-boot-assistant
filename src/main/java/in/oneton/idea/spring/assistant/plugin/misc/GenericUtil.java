@@ -3,6 +3,7 @@ package in.oneton.idea.spring.assistant.plugin.misc;
 import com.intellij.application.options.CodeStyle;
 import com.intellij.codeInsight.completion.InsertionContext;
 import com.intellij.lang.jvm.types.JvmPrimitiveTypeKind;
+import com.intellij.openapi.module.Module;
 import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings;

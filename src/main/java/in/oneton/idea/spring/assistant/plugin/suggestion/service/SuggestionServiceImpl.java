@@ -3,6 +3,7 @@ package in.oneton.idea.spring.assistant.plugin.suggestion.service;
 import com.google.gson.GsonBuilder;
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.roots.OrderEnumerator;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -45,6 +46,7 @@ import java.util.SortedMap;
 
 import static com.intellij.openapi.application.ApplicationManager.getApplication;
 import static in.oneton.idea.spring.assistant.plugin.misc.GenericUtil.modifiableList;
+import static in.oneton.idea.spring.assistant.plugin.misc.GenericUtil.truncateIdeaDummyIdentifier;
 import static in.oneton.idea.spring.assistant.plugin.suggestion.Suggestion.PERIOD_DELIMITER;
 import static in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNode.sanitise;
 import static java.util.Arrays.stream;

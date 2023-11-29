@@ -3,6 +3,7 @@ package in.oneton.idea.spring.assistant.plugin.suggestion.metadata.json;
 import com.google.gson.annotations.SerializedName;
 import com.intellij.codeInsight.documentation.DocumentationManagerUtil;
 import com.intellij.lang.documentation.DocumentationProvider;
+import com.intellij.openapi.module.Module;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiType;
 import com.intellij.psi.util.PsiTypesUtil;

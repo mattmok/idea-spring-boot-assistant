@@ -5,7 +5,7 @@ import com.intellij.lang.documentation.AbstractDocumentationProvider;
 import com.intellij.lang.java.JavaLanguage;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.module.ModuleUtil;
+import com.intellij.openapi.module.Module;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
@@ -27,6 +27,8 @@ import org.jetbrains.yaml.psi.impl.YAMLPlainTextImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.intellij.openapi.module.ModuleUtilCore.findModuleForFile;
+import static in.oneton.idea.spring.assistant.plugin.misc.GenericUtil.truncateIdeaDummyIdentifier;
 import static in.oneton.idea.spring.assistant.plugin.misc.PsiCustomUtil.findModule;
 import static java.util.stream.Collectors.joining;
 
@@ -34,11 +36,12 @@ public class YamlDocumentationProvider extends AbstractDocumentationProvider {
     @Override
     public String generateDoc(PsiElement element, @Nullable PsiElement originalElement) {
         String doc = null;
-        if (element instanceof DocumentationProxyElement) {
-            doc = ((DocumentationProxyElement) element).generateDoc();
+        if (element instanceof DocumentationProxyElement documentationProxyElement) {
+            doc = documentationProxyElement.generateDoc();
         }
-        if (doc == null)
+        if (doc == null) {
             doc = super.generateDoc(element, originalElement);
+        }
         return doc;
     }
 
@@ -48,8 +51,7 @@ public class YamlDocumentationProvider extends AbstractDocumentationProvider {
     @Override
     public PsiElement getDocumentationElementForLookupItem(PsiManager psiManager, Object object,
                                                            @Nullable PsiElement element) {
-        if (object instanceof Suggestion) {
-            Suggestion suggestion = (Suggestion) object;
+        if (object instanceof Suggestion suggestion) {
             return new DocumentationProxyElement(
                     psiManager,
                     JavaLanguage.INSTANCE,
@@ -65,24 +67,25 @@ public class YamlDocumentationProvider extends AbstractDocumentationProvider {
 
     @Nullable
     @Override
+    @SuppressWarnings({"squid:S3776", "squid:S6541"})
     public PsiElement getCustomDocumentationElement(@NotNull Editor editor, @NotNull PsiFile file,
-                                                    @Nullable PsiElement element) {
+                                                    @Nullable PsiElement element, int targetOffset) {
         if (file.getVirtualFile() == null || !(file.getVirtualFile().getFileType() instanceof YamlPropertiesFileType)) {
-            return super.getCustomDocumentationElement(editor, file, element);
+            return super.getCustomDocumentationElement(editor, file, element, targetOffset);
         }
         if (element == null) {
-            return super.getCustomDocumentationElement(editor, file, element);
+            return super.getCustomDocumentationElement(editor, file, null, targetOffset);
         }
         Module module = findModule(element);
         if (module == null) {
-            return super.getCustomDocumentationElement(editor, file, element);
+            return super.getCustomDocumentationElement(editor, file, element, targetOffset);
         }
 
         // If element is EOL or white space, move to its visual previous element on same line for better user experience.
         if (element.getText().isBlank()) {
             Document document = PsiDocumentManager.getInstance(module.getProject()).getDocument(file);
             if (document == null) {
-                return super.getCustomDocumentationElement(editor, file, element);
+                return super.getCustomDocumentationElement(editor, file, element, targetOffset);
             }
             int lineStartOffset = DocumentUtil.getLineStartOffset(element.getTextOffset(), document);
             CharSequence text = document.getImmutableCharSequence();
@@ -94,7 +97,7 @@ public class YamlDocumentationProvider extends AbstractDocumentationProvider {
             }
             PsiElement elementForDoc = file.findElementAt(i);
             if (elementForDoc == null) {
-                return super.getCustomDocumentationElement(editor, file, element);
+                return super.getCustomDocumentationElement(editor, file, element, targetOffset);
             } else {
                 element = elementForDoc;
             }
@@ -120,7 +123,7 @@ public class YamlDocumentationProvider extends AbstractDocumentationProvider {
             matchedNodesFromRootTillLeaf = suggestionService.findMatchedNodesRootTillEnd(ancestralKeys);
         }
         if (matchedNodesFromRootTillLeaf == null) {
-            return super.getCustomDocumentationElement(editor, file, element);
+            return super.getCustomDocumentationElement(editor, file, element, 0);
         }
 
         // Create documentation proxy element and return.
@@ -128,8 +131,8 @@ public class YamlDocumentationProvider extends AbstractDocumentationProvider {
         boolean requestedForTargetValue;
         String value;
         PsiElement elementContext = element.getContext();
-        if (elementContext instanceof YAMLKeyValue) {
-            value = truncateIdeaDummyIdentifier(((YAMLKeyValue) elementContext).getKeyText());
+        if (elementContext instanceof YAMLKeyValue yamlKeyValue) {
+            value = truncateIdeaDummyIdentifier(yamlKeyValue.getKeyText());
             requestedForTargetValue = false;
         } else if (elementContext instanceof YAMLPlainTextImpl) {
             value = truncateIdeaDummyIdentifier(element.getText());
@@ -151,7 +154,7 @@ public class YamlDocumentationProvider extends AbstractDocumentationProvider {
         return new DocumentationProxyElement(
                 file.getManager(),
                 file.getLanguage(),
-                ModuleUtil.findModuleForFile(file),
+                findModuleForFile(file),
                 targetNavigationPathDotDelimited,
                 target,
                 requestedForTargetValue,

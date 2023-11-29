@@ -2,6 +2,7 @@ package dev.flikas.spring.boot.assistant.idea.plugin.inspection;
 
 import com.intellij.codeInspection.LocalInspectionTool;
 import com.intellij.codeInspection.ProblemsHolder;
+import com.intellij.openapi.module.Module;
 import com.intellij.openapi.module.ModuleUtil;
 import com.intellij.openapi.progress.ProgressIndicatorProvider;
 import com.intellij.psi.PsiElement;
@@ -18,6 +19,7 @@ import org.jetbrains.yaml.psi.YamlPsiElementVisitor;
 import java.util.ArrayList;
 import java.util.List;
 
+import static in.oneton.idea.spring.assistant.plugin.misc.GenericUtil.truncateIdeaDummyIdentifier;
 import static java.util.Objects.requireNonNull;
 
 public class KeyNotDefinedInspection extends LocalInspectionTool {

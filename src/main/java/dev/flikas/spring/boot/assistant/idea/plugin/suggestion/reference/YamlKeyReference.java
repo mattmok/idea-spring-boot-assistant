@@ -1,6 +1,7 @@
 package dev.flikas.spring.boot.assistant.idea.plugin.suggestion.reference;
 
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.module.Module;
 import com.intellij.psi.JavaPsiFacade;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElement;
@@ -25,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.intellij.openapi.util.text.StringUtil.isNotEmpty;
+import static in.oneton.idea.spring.assistant.plugin.misc.GenericUtil.truncateIdeaDummyIdentifier;
+import static in.oneton.idea.spring.assistant.plugin.misc.PsiCustomUtil.findModule;
 import static in.oneton.idea.spring.assistant.plugin.suggestion.Suggestion.PERIOD_DELIMITER;
 import static in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNode.sanitise;
 import static java.util.Objects.requireNonNull;

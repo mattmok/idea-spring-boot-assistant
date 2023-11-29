@@ -1,6 +1,7 @@
 package in.oneton.idea.spring.assistant.plugin.suggestion.metadata;
 
 import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.module.Module;
 import com.intellij.psi.PsiType;
 import gnu.trove.THashMap;
 import gnu.trove.THashSet;

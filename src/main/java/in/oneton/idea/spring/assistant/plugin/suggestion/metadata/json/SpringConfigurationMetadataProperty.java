@@ -2,6 +2,7 @@ package in.oneton.idea.spring.assistant.plugin.suggestion.metadata.json;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.intellij.openapi.module.Module;
 import com.intellij.psi.PsiType;
 import in.oneton.idea.spring.assistant.plugin.misc.GenericUtil;
 import in.oneton.idea.spring.assistant.plugin.misc.PsiCustomUtil;
