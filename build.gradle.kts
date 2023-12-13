@@ -13,7 +13,7 @@ java {
 }
 
 group = "com.tiamaes.cloud.springbootassistant"
-version = "1.0.0"
+version = "1.0.1"
 
 repositories {
     mavenLocal()
@@ -45,15 +45,12 @@ dependencies {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     type.set("IC")
-    version.set("2023.2")
+    version.set("2023.3")
     sameSinceUntilBuild.set(false)
     updateSinceUntilBuild.set(false)
     pluginName.set("Tiamaes-Spring-Boot-Assistant")
     plugins.set(listOf("properties", "yaml", "maven", "gradle", "com.intellij.java"))
     jreRepository.set("https://intellij-repository.tiamaes.com/intellij-jbr")
-    tasks.runIde.configure {
-        jbrVersion.set("17.0.9b1087.7")
-    }
 }
 
 changelog {
@@ -61,40 +58,42 @@ changelog {
 }
 
 tasks {
+    initializeIntelliJPlugin {
+        offline.set(true)
+    }
     downloadZipSigner {
         cliPath.set(providers.gradleProperty("intellijMarketSignerPath"))
         cli.set(file(cliPath))
     }
 
     patchPluginXml {
-        sinceBuild.set("232.2")
-        untilBuild.set("232.*")
+        sinceBuild.set("232")
         version.set(
-                project.version.toString().run {
-                    val pieces = split('-')
-                    if (pieces.size > 1) {
-                        //if this is not a release version, generate a sub version number from count of hours from 2021-10-01.
-                        pieces[0] + "." + (System.currentTimeMillis() / 1000 - 1633046400) / 60 / 60
-                    } else {
-                        pieces[0]
-                    }
+            project.version.toString().run {
+                val pieces = split('-')
+                if (pieces.size > 1) {
+                    //if this is not a release version, generate a sub version number from count of hours from 2021-10-01.
+                    pieces[0] + "." + (System.currentTimeMillis() / 1000 - 1633046400) / 60 / 60
+                } else {
+                    pieces[0]
                 }
+            }
         )
 
         // Extract the <!-- Plugin description --> section from README.md and provide for the plugin's manifest
         pluginDescription.set(
-                projectDir.resolve("README.md").readText().lines().run {
-                    val start = "<!-- Plugin description -->"
-                    val end = "<!-- Plugin description end -->"
+            projectDir.resolve("README.md").readText().lines().run {
+                val start = "<!-- Plugin description -->"
+                val end = "<!-- Plugin description end -->"
 
-                    if (!containsAll(listOf(start, end))) {
-                        throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
-                    }
-                    subList(indexOf(start) + 1, indexOf(end))
-                }.joinToString(
-                        separator = "\n",
-                        postfix = "\nProject [document](https://github.com/mattmok/idea-spring-boot-assistant/#readme)\n"
-                ).run { markdownToHTML(this) }
+                if (!containsAll(listOf(start, end))) {
+                    throw GradleException("Plugin description section not found in README.md:\n$start ... $end")
+                }
+                subList(indexOf(start) + 1, indexOf(end))
+            }.joinToString(
+                separator = "\n",
+                postfix = "\nProject [document](https://github.com/mattmok/idea-spring-boot-assistant/#readme)\n"
+            ).run { markdownToHTML(this) }
         )
 
         changeNotes.set(provider {

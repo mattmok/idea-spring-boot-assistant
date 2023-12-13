@@ -8,20 +8,22 @@ import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.startup.StartupActivity;
+import com.intellij.openapi.startup.ProjectActivity;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.intellij.util.messages.MessageBusConnection;
 import in.oneton.idea.spring.assistant.plugin.suggestion.service.ProjectSuggestionService;
+import kotlin.Unit;
+import kotlin.coroutines.Continuation;
 import org.jetbrains.annotations.NotNull;
 
 import static com.intellij.openapi.compiler.CompilerTopics.COMPILATION_STATUS;
 
-public class BootstrapImpl implements StartupActivity.Background {
+public class BootstrapImpl implements ProjectActivity {
 
   private static final Logger log = Logger.getInstance(BootstrapImpl.class);
 
   @Override
-  public void runActivity(@NotNull Project project) {
+  public Object execute(@NotNull Project project, @NotNull Continuation<? super Unit> continuation) {
     ProgressManager.getInstance().run(
         new Task.Backgroundable(project, "Index spring configuration metadata") {
           @Override
@@ -62,6 +64,8 @@ public class BootstrapImpl implements StartupActivity.Background {
     } catch (Throwable e) {
       log.error("Failed to subscribe to compilation events for project " + project.getName(), e);
     }
+
+    return null;
   }
 
   /**
@@ -75,5 +79,4 @@ public class BootstrapImpl implements StartupActivity.Background {
       doWhenDebug.run();
     }
   }
-
 }

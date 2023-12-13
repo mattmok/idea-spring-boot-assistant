@@ -1,6 +1,5 @@
 package in.oneton.idea.spring.assistant.plugin.suggestion.metadata.json;
 
-import gnu.trove.THashMap;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +8,7 @@ import org.apache.commons.collections4.trie.PatriciaTrie;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -61,7 +61,7 @@ public class SpringConfigurationMetadataHint implements GsonPostProcessable {
   @Override
   public void doOnGsonDeserialization() {
     if (hasPredefinedValues()) {
-      valueLookup = new THashMap<>();
+      valueLookup = new HashMap<>();
       valueTrie = new PatriciaTrie<>();
       for (SpringConfigurationMetadataHintValue value : requireNonNull(values)) {
         // The default value can be array (if property is of type array) as per documentation, we dont support those usecases as of now

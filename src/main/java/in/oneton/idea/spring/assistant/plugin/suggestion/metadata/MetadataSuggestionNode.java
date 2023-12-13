@@ -129,4 +129,13 @@ public abstract class MetadataSuggestionNode implements SuggestionNode {
 
     public abstract String toTree();
 
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

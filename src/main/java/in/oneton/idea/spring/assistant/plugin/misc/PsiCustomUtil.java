@@ -29,9 +29,7 @@ import com.intellij.psi.util.CachedValue;
 import com.intellij.psi.util.PropertyUtil;
 import com.intellij.util.IncorrectOperationException;
 import com.intellij.util.TimeoutUtil;
-import gnu.trove.THashMap;
-import gnu.trove.THashSet;
-import gnu.trove.TObjectHashingStrategy;
+import com.tiamaes.cloud.assistant.idea.plugin.PsiClassWapper;
 import in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNodeType;
 import in.oneton.idea.spring.assistant.plugin.suggestion.clazz.GenericClassMemberWrapper;
 import lombok.experimental.UtilityClass;
@@ -40,6 +38,8 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -318,7 +318,7 @@ public class PsiCustomUtil {
     }
 
     @Nullable
-    public static Set<PsiClass> computeDependencies(Module module, @NotNull PsiType type) {
+    public static Set<PsiClassWapper> computeDependencies(Module module, @NotNull PsiType type) {
         PsiType originalType = type;
         if (isValidType(type)) {
             if (type instanceof PsiArrayType) {
@@ -335,23 +335,13 @@ public class PsiCustomUtil {
             if (type instanceof PsiClassType classType) {
                 Collection<PsiType> typeParams =
                         classType.resolveGenerics().getSubstitutor().getSubstitutionMap().values();
-                TObjectHashingStrategy<PsiClass> nameComparingHashingStrategy = new TObjectHashingStrategy<>() {
-                    @Override
-                    public int computeHashCode(PsiClass psiClass) {
-                        return requireNonNull(psiClass.getQualifiedName()).hashCode();
-                    }
-
-                    @Override
-                    public boolean equals(PsiClass psiClass, PsiClass other) {
-                        return psiClass.hashCode() == other.hashCode();
-                    }
-                };
-                Set<PsiClass> dependencies = new THashSet<>(nameComparingHashingStrategy);
-                dependencies.add(toValidPsiClass(classType));
+                Set<PsiClassWapper> dependencies = new HashSet<>();
+                PsiClassWapper wapper = new PsiClassWapper(toValidPsiClass(classType));
+                dependencies.add(wapper);
                 for (PsiType typeParam : typeParams) {
                     if (typeParam
                             != null) { // if the user specified raw class such as Map instead of Map<String, String>
-                        Set<PsiClass> childDependencies = computeDependencies(module, typeParam);
+                        Set<PsiClassWapper> childDependencies = computeDependencies(module, typeParam);
                         if (childDependencies == null) {
                             return null;
                         }
@@ -448,7 +438,7 @@ public class PsiCustomUtil {
 
     @NotNull
     private static Map<String, GenericClassMemberWrapper> prepareWritableProperties(@NotNull PsiClass psiClass) {
-        final Map<String, GenericClassMemberWrapper> memberNameToMemberWrapper = new THashMap<>();
+        final Map<String, GenericClassMemberWrapper> memberNameToMemberWrapper = new HashMap<>();
         for (PsiMethod method : psiClass.getAllMethods()) {
             if (method.hasModifierProperty(STATIC) || !method.hasModifierProperty(PUBLIC)) {
                 continue;
@@ -655,6 +645,7 @@ public class PsiCustomUtil {
         return null;
     }
 
+    @SuppressWarnings("unused")
     @Nullable
     public static VirtualFile findFileUnderRootInModule(Module module, String targetFileName) {
         VirtualFile[] contentRoots = getInstance(module).getContentRoots();

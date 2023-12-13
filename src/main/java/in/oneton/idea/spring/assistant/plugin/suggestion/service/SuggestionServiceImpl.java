@@ -26,7 +26,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.collections4.Trie;
 import org.apache.commons.collections4.trie.PatriciaTrie;
-import org.apache.commons.lang.time.StopWatch;
+import org.apache.commons.lang3.time.StopWatch;
 
 import javax.annotation.Nullable;
 import java.io.BufferedReader;
@@ -78,6 +78,7 @@ public class SuggestionServiceImpl implements SuggestionService {
         rootSearchIndex = new PatriciaTrie<>();
     }
 
+    @SuppressWarnings("unused")
     private static String firstPathSegment(String element) {
         return element.trim().split(PERIOD_DELIMITER, -1)[0];
     }
@@ -239,7 +240,7 @@ public class SuggestionServiceImpl implements SuggestionService {
 
     /**
      * Debug logging can be enabled by adding fully classified class name/package name with # prefix
-     * For eg., to enable debug logging, go `Help > Debug log settings` & type `#in.oneton.idea.spring.assistant.plugin.suggestion.service.SuggestionServiceImpl`
+     * For e.g., to enable debug logging, go `Help > Debug log settings` & type `#in.oneton.idea.spring.assistant.plugin.suggestion.service.SuggestionServiceImpl`
      *
      * @param doWhenDebug code to execute when debug is enabled
      */
@@ -327,11 +328,11 @@ public class SuggestionServiceImpl implements SuggestionService {
     }
 
     private void processContainers(List<MetadataContainerInfo> toProcess, List<MetadataContainerInfo> toRemove) {
-        // Lets remove references to files that are no longer present in classpath
+        // Let's remove references to files that are no longer present in classpath
         toRemove.forEach(this::removeReferences);
 
         for (MetadataContainerInfo metadataContainerInfo : toProcess) {
-            // lets remove existing references from search index, as these files are modified, so that we can rebuild index
+            // Let's remove existing references from search index, as these files are modified, so that we can rebuild index
             if (seenContainerPathToContainerInfo.containsKey(metadataContainerInfo.getContainerArchiveOrFileRef())) {
                 removeReferences(metadataContainerInfo);
             }
@@ -431,7 +432,7 @@ public class SuggestionServiceImpl implements SuggestionService {
                                     + ". Ignoring new group. Existing Property belongs to (" + String.join(",", closestMetadata.getBelongsTo()) + "), New Group belongs to "
                                     + containerArchiveOrFileRef);
                 } else {
-                    // lets add container as a reference till root
+                    // Let's add container as a reference till root
                     MetadataNonPropertySuggestionNode groupSuggestionNode =
                             (MetadataNonPropertySuggestionNode) closestMetadata;
                     groupSuggestionNode.addRefCascadeTillRoot(containerArchiveOrFileRef);
@@ -562,11 +563,9 @@ public class SuggestionServiceImpl implements SuggestionService {
     @SuppressWarnings("unused")
     private String toTree() {
         StringBuilder builder = new StringBuilder();
-        rootSearchIndex.forEach((k, v) -> {
-            builder.append("Module: ").append(k).append("\n")
-                    .append(v.toTree().trim().replaceFirst("^", "  ").replaceAll("\n", "\n  "))
-                    .append("\n");
-        });
+        rootSearchIndex.forEach((k, v) -> builder.append("Module: ").append(k).append("\n")
+                .append(v.toTree().trim().replaceFirst("^", "  ").replaceAll("\n", "\n  "))
+                .append("\n"));
         return builder.toString();
     }
 }

@@ -8,7 +8,7 @@ import com.intellij.psi.PsiClassType;
 import com.intellij.psi.PsiType;
 import com.intellij.psi.util.CachedValue;
 import com.intellij.util.ConcurrencyUtil;
-import com.intellij.util.containers.ContainerUtil;
+import com.tiamaes.cloud.assistant.idea.plugin.PsiClassWapper;
 import in.oneton.idea.spring.assistant.plugin.suggestion.Suggestion;
 import in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNode;
 import in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNodeType;
@@ -21,7 +21,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 import static com.intellij.psi.util.CachedValueProvider.Result.create;
 import static com.intellij.psi.util.CachedValuesManager.getCachedValue;
@@ -36,8 +38,7 @@ public class ClassMetadataProxy implements MetadataProxy {
 
   private static final Logger log = Logger.getInstance(ClassMetadataProxy.class);
 
-  private static final ConcurrentMap<String, Key<CachedValue<ClassMetadata>>> fqnToKey =
-      ContainerUtil.newConcurrentMap();
+  private static final ConcurrentMap<String, Key<CachedValue<ClassMetadata>>> fqnToKey = new ConcurrentHashMap<>();
 
   @NotNull
   private final PsiClass targetClass;
@@ -173,9 +174,10 @@ public class ClassMetadataProxy implements MetadataProxy {
           ConcurrencyUtil.cacheOrGet(fqnToKey, userDataKeyRef, Key.create(userDataKeyRef));
       return getCachedValue(targetClass, classMetadataKey, () -> {
         log.debug("Creating metadata instance for " + userDataKeyRef);
-        Set<PsiClass> dependencies = computeDependencies(module, type);
+        Set<PsiClassWapper> dependencies = computeDependencies(module, type);
         if (dependencies != null) {
-          return create(newClassMetadata(type), dependencies);
+          Set<PsiClass> dependencies0 = dependencies.stream().map(PsiClassWapper::getPsiClass).collect(Collectors.toSet());
+          return create(newClassMetadata(type), dependencies0);
         }
         return null;
       });

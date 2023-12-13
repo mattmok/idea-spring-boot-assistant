@@ -3,8 +3,6 @@ package in.oneton.idea.spring.assistant.plugin.suggestion.metadata;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.module.Module;
 import com.intellij.psi.PsiType;
-import gnu.trove.THashMap;
-import gnu.trove.THashSet;
 import in.oneton.idea.spring.assistant.plugin.misc.PsiCustomUtil;
 import in.oneton.idea.spring.assistant.plugin.suggestion.Suggestion;
 import in.oneton.idea.spring.assistant.plugin.suggestion.SuggestionNode;
@@ -26,6 +24,8 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -160,7 +160,7 @@ public class MetadataNonPropertySuggestionNode extends MetadataSuggestionNode {
         MetadataNonPropertySuggestionNodeBuilder builder =
                 MetadataNonPropertySuggestionNode.builder().name(SuggestionNode.sanitise(originalName))
                         .originalName(originalName).parent(parent);
-        Set<String> belongsToSet = new THashSet<>();
+        Set<String> belongsToSet = new HashSet<>();
         belongsToSet.add(belongsTo);
         builder.belongsTo(belongsToSet);
         return builder.build();
@@ -484,7 +484,7 @@ public class MetadataNonPropertySuggestionNode extends MetadataSuggestionNode {
                                           String belongsTo) {
         addRefCascadeTillRoot(belongsTo);
         if (!hasChildren()) {
-            childLookup = new THashMap<>();
+            childLookup = new HashMap<>();
             childrenTrie = new PatriciaTrie<>();
         }
 
@@ -502,7 +502,7 @@ public class MetadataNonPropertySuggestionNode extends MetadataSuggestionNode {
                                                                        int endIndexIncl, String belongsTo) {
         addRefCascadeTillRoot(belongsTo);
         if (!hasChildren()) {
-            childLookup = new THashMap<>();
+            childLookup = new HashMap<>();
             childrenTrie = new PatriciaTrie<>();
         }
 
